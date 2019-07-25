@@ -21,6 +21,16 @@ mix sac_sac_mate.import_players
 
 Visit: http://localhost:4000/players
 
+## Status
+
+### Players import
+- [x] Import Standard Top 101(!) Players from FIDE;
+  Columns: first_name, last_name, date_of_birth(year), country("NOR" format);
+  NOTE!: re-import will create duplicated records;
+
+### Admin Interface
+- [x] Create / Update / Delete Players
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/
