@@ -27,13 +27,14 @@ defmodule SacSacMate.Services.PlayerImporter do
      1 ->
       index # do nothing for table header row :)
      _ ->
-      name = content |> get_name()
+      first_name = content |> get_first_name()
+      last_name= content |> get_last_name()
       country = content |> get_country()
       date_of_birth = content |> get_date_of_birth()
 
       player_attributes = %{
-        first_name: name,
-        last_name: name,
+        first_name: first_name,
+        last_name: last_name,
         country: country,
         date_of_birth: date_of_birth
       }
@@ -50,25 +51,38 @@ defmodule SacSacMate.Services.PlayerImporter do
   end
 
   @doc """
-    Returns a name in following format: Xiong, Jeffery""
+    Returns a first name
   """
-  defp get_name(content) do
+  defp get_first_name(content) do
     content
       |> Floki.find("td > a")
       |> Floki.text
+      |> String.split(", ")
+      |> Enum.at(1)
   end
 
   @doc """
-    Returns a country in following format: " NOR"
+    Returns a last name
+  """
+  defp get_last_name(content) do
+    content
+      |> Floki.find("td > a")
+      |> Floki.text
+      |> String.split(", ")
+      |> Enum.at(0)
+  end
+
+  @doc """
+    Returns a country in following format: "NOR"
   """
   defp get_country(content) do
-    Enum.at(content, 3) |> elem(2) |> to_string
+    Enum.at(content, 3) |> elem(2) |> to_string |> String.trim
   end
 
   @doc """
-    Returns a country in following format: " 1990"
+    Returns a country in following format: "1990"
   """
   defp get_date_of_birth(content) do
-    Enum.at(content, 6) |> elem(2) |> to_string
+    Enum.at(content, 6) |> elem(2) |> to_string |> String.trim
   end
 end
