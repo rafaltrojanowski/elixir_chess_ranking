@@ -4,6 +4,9 @@ defmodule SacSacMate.Services.PlayerImporter do
     Provides methods for scraping players data from Fide
   """
 
+  alias SacSacMate.Accounts.Player
+  alias SacSacMate.Repo
+
   @stardart_rank "https://ratings.fide.com/top.phtml?list=men"
   @rapid_rank "https://ratings.fide.com/top.phtml?list=men_rapid"
   @blits_rank "https://ratings.fide.com/top.phtml?list=men_blitz"
@@ -16,8 +19,6 @@ defmodule SacSacMate.Services.PlayerImporter do
         |> Floki.find("table.contentpaneopen:nth-of-type(2) tr:nth-of-type(2) table tr")
         |> Enum.with_index(1)
         |> Enum.map(&map_data/1)
-
-        require IEx; IEx.pry
     end
   end
 
@@ -30,13 +31,21 @@ defmodule SacSacMate.Services.PlayerImporter do
       country = content |> get_country()
       date_of_birth = content |> get_date_of_birth()
 
-      %{
-        name: name,
+      player_attributes = %{
+        first_name: name,
+        last_name: name,
         country: country,
         date_of_birth: date_of_birth
       }
 
-      # TODO: Insert data to Repo
+      changeset = Player.changeset(%Player{}, player_attributes)
+
+      case Repo.insert(changeset) do
+        {:ok, player} ->
+          {:ok, player}
+        {:error, changeset} ->
+          {:error, changeset}
+      end
     end
   end
 
