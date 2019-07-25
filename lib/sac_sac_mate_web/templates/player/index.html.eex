@@ -1,32 +1,89 @@
-<h1>Listing Players</h1>
+<section id="torch-toolbar">
+  <div class="torch-container">
+    <%= link "New Player", to: Routes.player_path(@conn, :new) %>
+  </div>
+</section>
+<section id="torch-index-content">
+  <div class="torch-container">
+    <section id="torch-filters">
+      <h3>Find Players</h3>
+      <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
+        
+          <div class="field">
+            <label>First name</label>
+            <%= filter_select(:player, :first_name, @conn.params) %>
+            <%= filter_string_input(:player, :first_name, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Last name</label>
+            <%= filter_select(:player, :last_name, @conn.params) %>
+            <%= filter_string_input(:player, :last_name, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Country</label>
+            <%= filter_select(:player, :country, @conn.params) %>
+            <%= filter_string_input(:player, :country, @conn.params) %>
+          </div>
+        
+          <div class="field">
+            <label>Date of birth</label>
+            <%= filter_select(:player, :date_of_birth, @conn.params) %>
+            <%= filter_string_input(:player, :date_of_birth, @conn.params) %>
+          </div>
+        
+        
+        
+        
+        <button type="submit" class="torch-button">Search</button>
+        <%= link "Clear Filters", to: Routes.player_path(@conn, :index) %>
+      <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Country</th>
-      <th>Date of birth</th>
+    </section>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for player <- @players do %>
-    <tr>
-      <td><%= player.first_name %></td>
-      <td><%= player.last_name %></td>
-      <td><%= player.country %></td>
-      <td><%= player.date_of_birth %></td>
-
-      <td>
-        <%= link "Show", to: Routes.player_path(@conn, :show, player) %>
-        <%= link "Edit", to: Routes.player_path(@conn, :edit, player) %>
-        <%= link "Delete", to: Routes.player_path(@conn, :delete, player), method: :delete, data: [confirm: "Are you sure?"] %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Player", to: Routes.player_path(@conn, :new) %></span>
+    <section id="torch-table">
+    <%= if length(@players) > 0 do %>
+      <table>
+        <thead>
+          <tr>
+            
+              <th><%= table_link(@conn, "First name", :first_name) %></th>
+            
+              <th><%= table_link(@conn, "Last name", :last_name) %></th>
+            
+              <th><%= table_link(@conn, "Country", :country) %></th>
+            
+              <th><%= table_link(@conn, "Date of birth", :date_of_birth) %></th>
+            
+            <th><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for player <- @players do %>
+            <tr>
+              
+                <td><%= player.first_name %></td>
+              
+                <td><%= player.last_name %></td>
+              
+                <td><%= player.country %></td>
+              
+                <td><%= player.date_of_birth %></td>
+              
+              <td class="torch-actions">
+                <span><%= link "Show", to: Routes.player_path(@conn, :show, player) %></span>
+                <span><%= link "Edit", to: Routes.player_path(@conn, :edit, player) %></span>
+                <span><%= link "Delete", to: Routes.player_path(@conn, :delete, player), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= render Torch.PaginationView, "_pagination.html", assigns %>
+    <% else %>
+      <p class="torch-no-data">No Players match your search.</p>
+    <% end %>
+    </section>
+  </div>
+</section>

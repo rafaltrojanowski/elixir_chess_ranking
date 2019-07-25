@@ -45,6 +45,7 @@ defmodule SacSacMate.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.4"},
       {:floki, "~> 0.21.0"},
+      {:torch, "~> 2.0.0-rc.1"},
       {:exvcr, "~> 0.10", only: :test}
     ]
   end

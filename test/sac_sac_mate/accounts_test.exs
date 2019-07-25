@@ -19,6 +19,23 @@ defmodule SacSacMate.AccountsTest do
       player
     end
 
+    test "paginate_players/1 returns paginated list of players" do
+      for _ <- 1..20 do
+        player_fixture()
+      end
+
+      {:ok, %{players: players} = page} = Accounts.paginate_players(%{})
+
+      assert length(players) == 15
+      assert page.page_number == 1
+      assert page.page_size == 15
+      assert page.total_pages == 2
+      assert page.total_entries == 20
+      assert page.distance == 5
+      assert page.sort_field == "inserted_at"
+      assert page.sort_direction == "desc"
+    end
+
     test "list_players/0 returns all players" do
       player = player_fixture()
       assert Accounts.list_players() == [player]
@@ -43,7 +60,8 @@ defmodule SacSacMate.AccountsTest do
 
     test "update_player/2 with valid data updates the player" do
       player = player_fixture()
-      assert {:ok, %Player{} = player} = Accounts.update_player(player, @update_attrs)
+      assert {:ok, player} = Accounts.update_player(player, @update_attrs)
+      assert %Player{} = player
       assert player.country == "some updated country"
       assert player.date_of_birth == "some updated date_of_birth"
       assert player.first_name == "some updated first_name"

@@ -11,6 +11,16 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
+## Tasks
+
+```
+mix sac_sac_mate.import_players
+```
+
+## Admin
+
+Visit: http://localhost:4000/players
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/

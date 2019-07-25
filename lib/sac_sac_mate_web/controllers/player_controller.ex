@@ -4,9 +4,17 @@ defmodule SacSacMateWeb.PlayerController do
   alias SacSacMate.Accounts
   alias SacSacMate.Accounts.Player
 
-  def index(conn, _params) do
-    players = Accounts.list_players()
-    render(conn, "index.html", players: players)
+  plug(:put_layout, {SacSacMateWeb.LayoutView, "torch.html"})
+
+  def index(conn, params) do
+    case Accounts.paginate_players(params) do
+      {:ok, assigns} ->
+        render(conn, "index.html", assigns)
+      error ->
+        conn
+        |> put_flash(:error, "There was an error rendering Players. #{inspect(error)}")
+        |> redirect(to: Routes.player_path(conn, :index))
+    end
   end
 
   def new(conn, _params) do
@@ -20,7 +28,6 @@ defmodule SacSacMateWeb.PlayerController do
         conn
         |> put_flash(:info, "Player created successfully.")
         |> redirect(to: Routes.player_path(conn, :show, player))
-
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -45,7 +52,6 @@ defmodule SacSacMateWeb.PlayerController do
         conn
         |> put_flash(:info, "Player updated successfully.")
         |> redirect(to: Routes.player_path(conn, :show, player))
-
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", player: player, changeset: changeset)
     end
