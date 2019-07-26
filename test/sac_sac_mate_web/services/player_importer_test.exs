@@ -1,6 +1,5 @@
 defmodule SacSacMate.Services.PlayerImporterTest do
 
-  # use ExUnit.Case, async: true
   use SacSacMateWeb.ConnCase
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
