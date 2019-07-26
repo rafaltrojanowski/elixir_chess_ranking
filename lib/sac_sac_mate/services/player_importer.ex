@@ -6,19 +6,34 @@ defmodule SacSacMate.Services.PlayerImporter do
 
   alias SacSacMate.Accounts.Player
   alias SacSacMate.Repo
+  require Logger
 
-  @stardart_rank "https://ratings.fide.com/top.phtml?list=men"
+  @stardard_rank "https://ratings.fide.com/top.phtml?list=men"
   @rapid_rank "https://ratings.fide.com/top.phtml?list=men_rapid"
-  @blits_rank "https://ratings.fide.com/top.phtml?list=men_blitz"
+  @blitz_rank "https://ratings.fide.com/top.phtml?list=men_blitz"
 
-  def call do
-    case HTTPoison.get(@stardart_rank,[], [ssl: [{:verify, :verify_none}]]) do
+  def call(category) do
+    url = get_url(category)
+    Logger.info "Fetching data from: #{url}..."
+
+    case HTTPoison.get(url, [], [ssl: [{:verify, :verify_none}]]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        table_rows = body
+        body
         |> Floki.parse()
         |> Floki.find("table.contentpaneopen:nth-of-type(2) tr:nth-of-type(2) table tr")
         |> Enum.with_index(1)
         |> Enum.map(&map_data/1)
+    end
+  end
+
+  defp get_url(category) do
+    case category do
+      :standard ->
+        @stardard_rank
+      :rapid ->
+        @rapid_rank
+      :blitz ->
+        @blitz_rank
     end
   end
 
@@ -50,9 +65,6 @@ defmodule SacSacMate.Services.PlayerImporter do
     end
   end
 
-  @doc """
-    Returns a first name
-  """
   defp get_first_name(content) do
     content
       |> Floki.find("td > a")
@@ -61,9 +73,6 @@ defmodule SacSacMate.Services.PlayerImporter do
       |> Enum.at(1)
   end
 
-  @doc """
-    Returns a last name
-  """
   defp get_last_name(content) do
     content
       |> Floki.find("td > a")
@@ -72,16 +81,10 @@ defmodule SacSacMate.Services.PlayerImporter do
       |> Enum.at(0)
   end
 
-  @doc """
-    Returns a country in following format: "NOR"
-  """
   defp get_country(content) do
     Enum.at(content, 3) |> elem(2) |> to_string |> String.trim
   end
 
-  @doc """
-    Returns a country in following format: "1990"
-  """
   defp get_date_of_birth(content) do
     Enum.at(content, 6) |> elem(2) |> to_string |> String.trim
   end

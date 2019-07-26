@@ -4,7 +4,6 @@ defmodule SacSacMate.Services.PlayerImporterTest do
   use SacSacMateWeb.ConnCase
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  alias SacSacMate.Accounts
   alias SacSacMate.Services.PlayerImporter
 
   alias SacSacMate.Accounts.Player
@@ -16,7 +15,7 @@ defmodule SacSacMate.Services.PlayerImporterTest do
 
   test "imports players" do
     use_cassette "top_list_men" do
-      data = PlayerImporter.call()
+      PlayerImporter.call()
       assert length(Repo.all(Player)) ==  101
     end
   end

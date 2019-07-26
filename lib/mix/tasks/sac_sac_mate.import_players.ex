@@ -9,7 +9,10 @@ defmodule Mix.Tasks.SacSacMate.ImportPlayers do
   def run(_) do
     Mix.Task.run "app.start"
 
-    PlayerImporter.call()
+    PlayerImporter.call(:standard)
+    PlayerImporter.call(:rapid)
+    PlayerImporter.call(:blitz)
+
     players_imported_count = length(Repo.all(Player))
 
     Logger.info """
