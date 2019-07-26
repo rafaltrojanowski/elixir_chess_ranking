@@ -60,6 +60,7 @@ defmodule SacSacMate.Services.PlayerImporter do
         {:ok, player} ->
           {:ok, player}
         {:error, changeset} ->
+          Logger.info changeset_error_to_string(changeset)
           {:error, changeset}
       end
     end
@@ -87,5 +88,17 @@ defmodule SacSacMate.Services.PlayerImporter do
 
   defp get_date_of_birth(content) do
     Enum.at(content, 6) |> elem(2) |> to_string |> String.trim
+  end
+
+  def changeset_error_to_string(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
+    |> Enum.reduce("", fn {k, v}, acc ->
+      joined_errors = Enum.join(v, "; ")
+      "#{acc}#{k}: #{joined_errors}\n"
+    end)
   end
 end

@@ -11,5 +11,6 @@ defmodule SacSacMate.Repo.Migrations.CreatePlayers do
       timestamps()
     end
 
+    create unique_index(:players, [:first_name, :last_name, :country, :date_of_birth])
   end
 end

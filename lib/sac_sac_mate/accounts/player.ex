@@ -16,5 +16,6 @@ defmodule SacSacMate.Accounts.Player do
     player
     |> cast(attrs, [:first_name, :last_name, :country, :date_of_birth])
     |> validate_required([:first_name, :last_name, :country, :date_of_birth])
+    |> unique_constraint(:fullname, name: :players_first_name_last_name_country_date_of_birth_index)
   end
 end
