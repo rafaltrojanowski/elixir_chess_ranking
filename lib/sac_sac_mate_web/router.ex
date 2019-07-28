@@ -18,6 +18,7 @@ defmodule SacSacMateWeb.Router do
 
     get "/", PageController, :index
     resources "/players", PlayerController
+    resources "/ratings", RatingController
   end
 
   # Other scopes may use custom stacks.

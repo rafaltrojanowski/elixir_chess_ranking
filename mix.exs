@@ -46,6 +46,7 @@ defmodule SacSacMate.MixProject do
       {:httpoison, "~> 1.4"},
       {:floki, "~> 0.21.0"},
       {:torch, "~> 2.0.0-rc.1"},
+      {:sweet_xml, ">= 0.0.0"},
       {:exvcr, "~> 0.10", only: :test}
     ]
   end
