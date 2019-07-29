@@ -27,6 +27,15 @@ Visit: http://localhost:4000/players
 ### Admin Interface
 - [x] Create / Update / Delete Players
 
+## TODO
+
+- [ ] fix tests
+- [ ] rename ranking -> rating
+- [ ] do not create new player if already exist (rating import)
+- [ ] support all 3 types of ratings (import)
+- [ ] save date in rating model
+- [ ] allow to import from collection of XML files
+
 ## Learn more
 
   * Official website: http://www.phoenixframework.org/
