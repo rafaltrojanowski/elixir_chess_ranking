@@ -16,6 +16,6 @@ defmodule SacSacMate.Player.Rating do
   def changeset(rating, attrs) do
     rating
     |> cast(attrs, [:standard_rating, :rapid_ranking, :blitz_ranking, :date, :player_id])
-    |> validate_required([:standard_rating, :rapid_ranking, :blitz_ranking, :date, :player_id])
+    # |> validate_required([:standard_rating, :rapid_ranking, :blitz_ranking, :date, :player_id])
   end
 end
