@@ -1,15 +1,15 @@
 defmodule SacSacMateWeb.RatingControllerTest do
-  use SacSacMateWeb.ConnCase
 
+  import SacSacMate.Factory
+  use SacSacMateWeb.ConnCase
   alias SacSacMate.Player
 
-  @create_attrs %{blitz_ranking: 42, date: ~D[2010-04-17], player_id: 42, rapid_ranking: 42, standard_rating: 42}
-  @update_attrs %{blitz_ranking: 43, date: ~D[2011-05-18], player_id: 43, rapid_ranking: 43, standard_rating: 43}
-  @invalid_attrs %{blitz_ranking: nil, date: nil, player_id: nil, rapid_ranking: nil, standard_rating: nil}
+  @create_attrs %{blitz_ranking: 42, date: ~D[2010-04-17], rapid_ranking: 42, standard_rating: 42}
+  @update_attrs %{blitz_ranking: 43, date: ~D[2011-05-18], rapid_ranking: 43, standard_rating: 43}
+  @invalid_attrs %{blitz_ranking: nil, date: nil, rapid_ranking: nil, standard_rating: nil}
 
   def fixture(:rating) do
-    {:ok, rating} = Player.create_rating(@create_attrs)
-    rating
+    insert(:rating)
   end
 
   describe "index" do
@@ -28,7 +28,8 @@ defmodule SacSacMateWeb.RatingControllerTest do
 
   describe "create rating" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, Routes.rating_path(conn, :create), rating: @create_attrs
+      player = insert(:player)
+      conn = post conn, Routes.rating_path(conn, :create), rating: Map.put(@create_attrs, :player_id, player.id)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.rating_path(conn, :show, id)
@@ -56,7 +57,9 @@ defmodule SacSacMateWeb.RatingControllerTest do
     setup [:create_rating]
 
     test "redirects when data is valid", %{conn: conn, rating: rating} do
-      conn = put conn, Routes.rating_path(conn, :update, rating), rating: @update_attrs
+      player = insert(:player)
+
+      conn = put conn, Routes.rating_path(conn, :update, rating), rating: Map.put(@update_attrs, :player_id, player.id)
       assert redirected_to(conn) == Routes.rating_path(conn, :show, rating)
 
       conn = get conn, Routes.rating_path(conn, :show, rating)
