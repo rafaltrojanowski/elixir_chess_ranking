@@ -160,8 +160,8 @@ end
 defp filter_config(:ratings) do
   defconfig do
     number :standard_rating
-      number :rapid_ranking
-      number :blitz_ranking
+      number :rapid_rating
+      number :blitz_rating
       date :date
       number :player_id
 

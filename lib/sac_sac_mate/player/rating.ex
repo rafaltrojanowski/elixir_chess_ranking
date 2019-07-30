@@ -3,9 +3,9 @@ defmodule SacSacMate.Player.Rating do
   import Ecto.Changeset
 
   schema "ratings" do
-    field :blitz_ranking, :integer
+    field :blitz_rating, :integer
     field :date, :date
-    field :rapid_ranking, :integer
+    field :rapid_rating, :integer
     field :standard_rating, :integer
 
     belongs_to :player, SacSacMate.Accounts.Player
@@ -16,7 +16,7 @@ defmodule SacSacMate.Player.Rating do
   @doc false
   def changeset(rating, attrs) do
     rating
-    |> cast(attrs, [:standard_rating, :rapid_ranking, :blitz_ranking, :date, :player_id])
+    |> cast(attrs, [:standard_rating, :rapid_rating, :blitz_rating, :date, :player_id])
     |> validate_required([:date, :player_id])
   end
 end

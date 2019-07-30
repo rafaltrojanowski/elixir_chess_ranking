@@ -1,6 +1,7 @@
 defmodule SacSacMate.AccountsTest do
-  use SacSacMate.DataCase
 
+  import SacSacMate.Factory
+  use SacSacMate.DataCase
   alias SacSacMate.Accounts
 
   describe "players" do
@@ -11,12 +12,7 @@ defmodule SacSacMate.AccountsTest do
     @invalid_attrs %{country: nil, date_of_birth: nil, first_name: nil, last_name: nil}
 
     def player_fixture(attrs \\ %{}) do
-      {:ok, player} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Accounts.create_player()
-
-      player
+      insert(:player, attrs)
     end
 
     test "paginate_players/1 returns paginated list of players" do

@@ -8,21 +8,21 @@ defmodule SacSacMate.PlayerTest do
     alias SacSacMate.Player.Rating
 
     @valid_attrs %{
-      blitz_ranking: 42,
+      blitz_rating: 42,
       date: ~D[2010-04-17],
-      rapid_ranking: 42,
+      rapid_rating: 42,
       standard_rating: 42
     }
     @update_attrs %{
-      blitz_ranking: 43,
+      blitz_rating: 43,
       date: ~D[2011-05-18],
-      rapid_ranking: 43,
+      rapid_rating: 43,
       standard_rating: 43
     }
     @invalid_attrs %{
-      blitz_ranking: nil,
+      blitz_rating: nil,
       date: nil,
-      rapid_ranking: nil,
+      rapid_rating: nil,
       standard_rating: nil
     }
 
@@ -61,10 +61,10 @@ defmodule SacSacMate.PlayerTest do
       player = insert(:player)
 
       assert {:ok, %Rating{} = rating} = Player.create_rating(Map.put(@valid_attrs, :player_id, player.id))
-      assert rating.blitz_ranking == 42
+      assert rating.blitz_rating == 42
       assert rating.date == ~D[2010-04-17]
       assert rating.player_id == player.id
-      assert rating.rapid_ranking == 42
+      assert rating.rapid_rating == 42
       assert rating.standard_rating == 42
     end
 
@@ -78,10 +78,10 @@ defmodule SacSacMate.PlayerTest do
 
       assert {:ok, rating} = Player.update_rating(rating, Map.put(@update_attrs, :player_id, player.id))
       assert %Rating{} = rating
-      assert rating.blitz_ranking == 43
+      assert rating.blitz_rating == 43
       assert rating.date == ~D[2011-05-18]
       assert rating.player_id == player.id
-      assert rating.rapid_ranking == 43
+      assert rating.rapid_rating == 43
       assert rating.standard_rating == 43
     end
 

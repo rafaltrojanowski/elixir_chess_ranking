@@ -4,9 +4,9 @@ defmodule SacSacMateWeb.RatingControllerTest do
   use SacSacMateWeb.ConnCase
   alias SacSacMate.Player
 
-  @create_attrs %{blitz_ranking: 42, date: ~D[2010-04-17], rapid_ranking: 42, standard_rating: 42}
-  @update_attrs %{blitz_ranking: 43, date: ~D[2011-05-18], rapid_ranking: 43, standard_rating: 43}
-  @invalid_attrs %{blitz_ranking: nil, date: nil, rapid_ranking: nil, standard_rating: nil}
+  @create_attrs %{blitz_rating: 42, date: ~D[2010-04-17], rapid_rating: 42, standard_rating: 42}
+  @update_attrs %{blitz_rating: 43, date: ~D[2011-05-18], rapid_rating: 43, standard_rating: 43}
+  @invalid_attrs %{blitz_rating: nil, date: nil, rapid_rating: nil, standard_rating: nil}
 
   def fixture(:rating) do
     insert(:rating)

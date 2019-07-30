@@ -18,13 +18,13 @@
         </li>
       
         <li>
-          <div class="torch-show-label">Rapid ranking:</div>
-          <div class="torch-show-data"><%= @rating.rapid_ranking %></div>
+          <div class="torch-show-label">Rapid rating:</div>
+          <div class="torch-show-data"><%= @rating.rapid_rating %></div>
         </li>
       
         <li>
-          <div class="torch-show-label">Blitz ranking:</div>
-          <div class="torch-show-data"><%= @rating.blitz_ranking %></div>
+          <div class="torch-show-label">Blitz rating:</div>
+          <div class="torch-show-data"><%= @rating.blitz_rating %></div>
         </li>
       
         <li>

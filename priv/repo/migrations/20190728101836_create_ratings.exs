@@ -4,8 +4,8 @@ defmodule SacSacMate.Repo.Migrations.CreateRatings do
   def change do
     create table(:ratings) do
       add :standard_rating, :integer
-      add :rapid_ranking, :integer
-      add :blitz_ranking, :integer
+      add :rapid_rating, :integer
+      add :blitz_rating, :integer
       add :date, :date
       add :player_id, references(:players), null: false
 

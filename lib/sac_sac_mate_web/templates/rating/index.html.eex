@@ -24,15 +24,15 @@
           </div>
         
           <div class="field">
-            <label>Rapid ranking</label>
-            <%= number_filter_select(:rating, :rapid_ranking, @conn.params) %>
-            <%= filter_number_input(:rating, :rapid_ranking, @conn.params) %>
+            <label>Rapid rating</label>
+            <%= number_filter_select(:rating, :rapid_rating, @conn.params) %>
+            <%= filter_number_input(:rating, :rapid_rating, @conn.params) %>
           </div>
         
           <div class="field">
-            <label>Blitz ranking</label>
-            <%= number_filter_select(:rating, :blitz_ranking, @conn.params) %>
-            <%= filter_number_input(:rating, :blitz_ranking, @conn.params) %>
+            <label>Blitz rating</label>
+            <%= number_filter_select(:rating, :blitz_rating, @conn.params) %>
+            <%= filter_number_input(:rating, :blitz_rating, @conn.params) %>
           </div>
         
           <div class="field">
@@ -55,9 +55,9 @@
             
               <th><%= table_link(@conn, "Standard rating", :standard_rating) %></th>
             
-              <th><%= table_link(@conn, "Rapid ranking", :rapid_ranking) %></th>
+              <th><%= table_link(@conn, "Rapid rating", :rapid_rating) %></th>
             
-              <th><%= table_link(@conn, "Blitz ranking", :blitz_ranking) %></th>
+              <th><%= table_link(@conn, "Blitz rating", :blitz_rating) %></th>
             
               <th><%= table_link(@conn, "Date", :date) %></th>
             
@@ -72,9 +72,9 @@
               
                 <td><%= rating.standard_rating %></td>
               
-                <td><%= rating.rapid_ranking %></td>
+                <td><%= rating.rapid_rating %></td>
               
-                <td><%= rating.blitz_ranking %></td>
+                <td><%= rating.blitz_rating %></td>
               
                 <td><%= rating.date %></td>
               

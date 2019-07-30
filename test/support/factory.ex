@@ -15,13 +15,13 @@ defmodule SacSacMate.Factory do
 
   def rating_factory do
     standard_rating = sequence(:standard_rating, &"123#{&1}")
-    rapid_ranking= sequence(:rapid_ranking, &"123#{&1}")
-    blitz_ranking = sequence(:blitz_ranking, &"123#{&1}")
+    rapid_rating= sequence(:rapid_rating, &"123#{&1}")
+    blitz_rating = sequence(:blitz_rating, &"123#{&1}")
 
     %SacSacMate.Player.Rating{
       standard_rating: standard_rating,
-      rapid_ranking: rapid_ranking,
-      blitz_ranking: blitz_ranking,
+      rapid_rating: rapid_rating,
+      blitz_rating: blitz_rating,
       date: DateTime.utc_now,
       player: build(:player)
     }

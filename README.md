@@ -36,8 +36,6 @@ Visit: http://localhost:4000/players
 
 ## TODO
 
-- [x] fix tests
-- [ ] rename ranking -> rating
 - [ ] do not create new player if already exist (rating import)
 - [ ] support all 3 types of ratings (import)
 - [ ] save date in rating model

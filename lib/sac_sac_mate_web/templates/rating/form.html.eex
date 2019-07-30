@@ -14,15 +14,15 @@
     </div>
   
     <div class="torch-form-group">
-      <%= label f, :rapid_ranking %>
-      <%= number_input f, :rapid_ranking %>
-      <%= error_tag f, :rapid_ranking %>
+      <%= label f, :rapid_rating %>
+      <%= number_input f, :rapid_rating %>
+      <%= error_tag f, :rapid_rating %>
     </div>
   
     <div class="torch-form-group">
-      <%= label f, :blitz_ranking %>
-      <%= number_input f, :blitz_ranking %>
-      <%= error_tag f, :blitz_ranking %>
+      <%= label f, :blitz_rating %>
+      <%= number_input f, :blitz_rating %>
+      <%= error_tag f, :blitz_rating %>
     </div>
   
     <div class="torch-form-group">
