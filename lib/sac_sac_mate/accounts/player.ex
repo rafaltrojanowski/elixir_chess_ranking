@@ -8,6 +8,8 @@ defmodule SacSacMate.Accounts.Player do
     field :first_name, :string
     field :last_name, :string
 
+    has_many :ratings, SacSacMate.Player.Rating
+
     timestamps()
   end
 

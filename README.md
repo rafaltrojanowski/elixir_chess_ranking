@@ -15,6 +15,13 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ```
 mix sac_sac_mate.import_players
+mix sac_sac_mate.import_ratings
+```
+
+## Debugging
+
+```
+require IEx; IEx.pry
 ```
 
 ## Admin

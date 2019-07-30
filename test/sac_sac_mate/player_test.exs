@@ -1,22 +1,33 @@
 defmodule SacSacMate.PlayerTest do
-  use SacSacMate.DataCase
+  import SacSacMate.Factory
 
+  use SacSacMate.DataCase
   alias SacSacMate.Player
 
   describe "ratings" do
     alias SacSacMate.Player.Rating
 
-    @valid_attrs %{blitz_ranking: 42, date: ~D[2010-04-17], player_id: 42, rapid_ranking: 42, standard_rating: 42}
-    @update_attrs %{blitz_ranking: 43, date: ~D[2011-05-18], player_id: 43, rapid_ranking: 43, standard_rating: 43}
-    @invalid_attrs %{blitz_ranking: nil, date: nil, player_id: nil, rapid_ranking: nil, standard_rating: nil}
+    @valid_attrs %{
+      blitz_ranking: 42,
+      date: ~D[2010-04-17],
+      rapid_ranking: 42,
+      standard_rating: 42
+    }
+    @update_attrs %{
+      blitz_ranking: 43,
+      date: ~D[2011-05-18],
+      rapid_ranking: 43,
+      standard_rating: 43
+    }
+    @invalid_attrs %{
+      blitz_ranking: nil,
+      date: nil,
+      rapid_ranking: nil,
+      standard_rating: nil
+    }
 
     def rating_fixture(attrs \\ %{}) do
-      {:ok, rating} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Player.create_rating()
-
-      rating
+      insert(:rating)
     end
 
     test "paginate_ratings/1 returns paginated list of ratings" do
@@ -47,10 +58,12 @@ defmodule SacSacMate.PlayerTest do
     end
 
     test "create_rating/1 with valid data creates a rating" do
-      assert {:ok, %Rating{} = rating} = Player.create_rating(@valid_attrs)
+      player = insert(:player)
+
+      assert {:ok, %Rating{} = rating} = Player.create_rating(Map.put(@valid_attrs, :player_id, player.id))
       assert rating.blitz_ranking == 42
       assert rating.date == ~D[2010-04-17]
-      assert rating.player_id == 42
+      assert rating.player_id == player.id
       assert rating.rapid_ranking == 42
       assert rating.standard_rating == 42
     end
@@ -61,18 +74,22 @@ defmodule SacSacMate.PlayerTest do
 
     test "update_rating/2 with valid data updates the rating" do
       rating = rating_fixture()
-      assert {:ok, rating} = Player.update_rating(rating, @update_attrs)
+      player = insert(:player)
+
+      assert {:ok, rating} = Player.update_rating(rating, Map.put(@update_attrs, :player_id, player.id))
       assert %Rating{} = rating
       assert rating.blitz_ranking == 43
       assert rating.date == ~D[2011-05-18]
-      assert rating.player_id == 43
+      assert rating.player_id == player.id
       assert rating.rapid_ranking == 43
       assert rating.standard_rating == 43
     end
 
     test "update_rating/2 with invalid data returns error changeset" do
       rating = rating_fixture()
-      assert {:error, %Ecto.Changeset{}} = Player.update_rating(rating, @invalid_attrs)
+      player = insert(:player)
+
+      assert {:error, %Ecto.Changeset{}} = Player.update_rating(rating, Map.put(@invalid_attrs, :player_id, player.id))
       assert rating == Player.get_rating!(rating.id)
     end
 

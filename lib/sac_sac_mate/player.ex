@@ -70,6 +70,7 @@ Returns the list of ratings.
 """
 def list_ratings do
   Repo.all(Rating)
+  |> Repo.preload(:player)
 end
 
 @doc """
@@ -86,7 +87,10 @@ Raises `Ecto.NoResultsError` if the Rating does not exist.
     ** (Ecto.NoResultsError)
 
 """
-def get_rating!(id), do: Repo.get!(Rating, id)
+def get_rating!(id) do
+  Repo.get!(Rating, id)
+  |> Repo.preload(:player)
+end
 
 @doc """
 Creates a rating.
@@ -160,7 +164,7 @@ defp filter_config(:ratings) do
       number :blitz_ranking
       date :date
       number :player_id
-      
+
   end
 end
 end

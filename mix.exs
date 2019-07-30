@@ -47,7 +47,8 @@ defmodule SacSacMate.MixProject do
       {:floki, "~> 0.21.0"},
       {:torch, "~> 2.0.0-rc.1"},
       {:sweet_xml, ">= 0.0.0"},
-      {:exvcr, "~> 0.10", only: :test}
+      {:exvcr, "~> 0.10", only: :test},
+      {:ex_machina, "~> 2.3", only: :test}
     ]
   end
 
