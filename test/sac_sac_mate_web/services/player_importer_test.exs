@@ -14,7 +14,7 @@ defmodule SacSacMate.Services.PlayerImporterTest do
 
   test "imports players" do
     use_cassette "top_list_men" do
-      PlayerImporter.call(:standard)
+      PlayerImporter.call()
       assert length(Repo.all(Player)) ==  101
     end
   end

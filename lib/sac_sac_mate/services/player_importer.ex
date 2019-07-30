@@ -12,7 +12,7 @@ defmodule SacSacMate.Services.PlayerImporter do
   @rapid_rank "https://ratings.fide.com/top.phtml?list=men_rapid"
   @blitz_rank "https://ratings.fide.com/top.phtml?list=men_blitz"
 
-  def call(category) do
+  def call(category \\ :standard) do
     url = get_url(category)
     Logger.info "Fetching data from: #{url}..."
 
@@ -28,12 +28,9 @@ defmodule SacSacMate.Services.PlayerImporter do
 
   defp get_url(category) do
     case category do
-      :standard ->
-        @stardard_rank
-      :rapid ->
-        @rapid_rank
-      :blitz ->
-        @blitz_rank
+      :standard -> @stardard_rank
+      :rapid -> @rapid_rank
+      :blitz -> @blitz_rank
     end
   end
 
@@ -46,6 +43,9 @@ defmodule SacSacMate.Services.PlayerImporter do
       last_name= content |> get_last_name()
       country = content |> get_country()
       date_of_birth = content |> get_date_of_birth()
+
+      # NOTE: we can store stardard_rating and games as well, but let's try to
+      # use ratings_importer service for this.
 
       player_attributes = %{
         first_name: first_name,
