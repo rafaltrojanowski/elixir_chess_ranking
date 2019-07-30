@@ -39,42 +39,82 @@ defmodule SacSacMate.Services.RatingImporter do
     |> Enum.map fn (player_attributes) ->
 
       rating_attributes = %{
-        standard_rating: player_attributes.rating |> to_string() |> Integer.parse |> elem(0)
+        standard_rating: player_attributes.rating |> to_string() |> Integer.parse |> elem(0),
+        date: DateTime.utc_now() # TODO fix me
       }
 
-      name = player_attributes.name
-      first_name = name |> to_string() |> String.split(", ") |> Enum.at(1)
-      last_name = name |> to_string() |> String.split(", ") |> Enum.at(0)
+      player_data = get_player_data(player_attributes)
 
-      player_changeset = Player.changeset(%Player{},
-        %{
-          first_name: first_name,
-          last_name: last_name,
-          country: player_attributes.country |> to_string(),
-          birthday: player_attributes.birthday |> to_string()
-        }
+      player = Repo.get_by(Player,
+        first_name: player_data.first_name,
+        last_name: player_data.last_name,
+        country: player_data.country,
       )
 
-      case Repo.insert(player_changeset) do
-        {:ok, player} ->
-
-          changeset = Rating.changeset(%Rating{},
-            Map.put(rating_attributes, :player_id, player.id)
-          )
-
-          case Repo.insert(changeset) do
-            {:ok, rating} ->
-              {:ok, rating}
-            {:error, changeset} ->
-              Logger.info changeset_error_to_string(changeset)
-              {:error, changeset}
-          end
-
-          {:ok, player}
-        {:error, changeset} ->
-          Logger.info changeset_error_to_string(changeset)
-          {:error, changeset}
+      if player do
+        add_rating_for_player(player, rating_attributes)
+      else
+        add_new_player_with_rating(player_data, rating_attributes)
       end
+    end
+  end
+
+  defp get_player_data(player_attributes) do
+    name = player_attributes.name
+
+    %{
+      first_name: name |> to_string() |> String.split(", ") |> Enum.at(1),
+      last_name: name |> to_string() |> String.split(", ") |> Enum.at(0),
+      country: player_attributes.country |> to_string(),
+      birthday: player_attributes.birthday |> to_string()
+    }
+  end
+
+  defp add_rating_for_player(player, rating_attributes) do
+    # TODO: consider update player here
+
+    changeset = Rating.changeset(%Rating{},
+      Map.put(rating_attributes, :player_id, player.id)
+    )
+
+    case Repo.insert(changeset) do
+      {:ok, rating} ->
+        {:ok, rating}
+      {:error, changeset} ->
+        Logger.info changeset_error_to_string(changeset)
+        {:error, changeset}
+    end
+  end
+
+  defp add_new_player_with_rating(player_data, rating_attributes) do
+    player_changeset = Player.changeset(%Player{},
+      %{
+        first_name: player_data.first_name,
+        last_name: player_data.last_name,
+        country: player_data.country,
+        birthday: player_data.birthday
+      }
+    )
+
+    case Repo.insert(player_changeset) do
+      {:ok, player} ->
+
+        changeset = Rating.changeset(%Rating{},
+          Map.put(rating_attributes, :player_id, player.id)
+        )
+
+        case Repo.insert(changeset) do
+          {:ok, rating} ->
+            {:ok, rating}
+          {:error, changeset} ->
+            Logger.info changeset_error_to_string(changeset)
+            {:error, changeset}
+        end
+
+        {:ok, player}
+      {:error, changeset} ->
+        Logger.info changeset_error_to_string(changeset)
+        {:error, changeset}
     end
   end
 

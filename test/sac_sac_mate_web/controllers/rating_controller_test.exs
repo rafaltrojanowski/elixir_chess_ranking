@@ -2,7 +2,6 @@ defmodule SacSacMateWeb.RatingControllerTest do
 
   import SacSacMate.Factory
   use SacSacMateWeb.ConnCase
-  alias SacSacMate.Player
 
   @create_attrs %{blitz_rating: 42, date: ~D[2010-04-17], rapid_rating: 42, standard_rating: 42}
   @update_attrs %{blitz_rating: 43, date: ~D[2011-05-18], rapid_rating: 43, standard_rating: 43}

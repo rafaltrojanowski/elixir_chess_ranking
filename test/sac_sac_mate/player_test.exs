@@ -27,7 +27,7 @@ defmodule SacSacMate.PlayerTest do
     }
 
     def rating_fixture(attrs \\ %{}) do
-      insert(:rating)
+      insert(:rating, attrs)
     end
 
     test "paginate_ratings/1 returns paginated list of ratings" do
