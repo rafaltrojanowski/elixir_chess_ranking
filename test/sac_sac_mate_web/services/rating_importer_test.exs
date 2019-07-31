@@ -19,8 +19,8 @@ defmodule SacSacMate.Services.RatingImporterTest do
 
     RatingImporter.call(path)
 
-    assert length(Repo.all(Player)) == 2
-    assert length(Repo.all(Rating)) == 2
+    assert length(Repo.all(Player)) == 4
+    assert length(Repo.all(Rating)) == 4
 
     player = Repo.get_by!(Player,
       first_name: "Sourab",

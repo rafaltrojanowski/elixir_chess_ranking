@@ -44,12 +44,7 @@ defmodule SacSacMate.Services.RatingImporter do
       }
 
       player_data = get_player_data(player_attributes)
-
-      player = Repo.get_by(Player,
-        first_name: player_data.first_name,
-        last_name: player_data.last_name,
-        country: player_data.country
-      )
+      player = get_player(player_data.first_name, player_data.last_name, player_data.country)
 
       if player do
         add_rating_for_player(player, rating_attributes)
@@ -59,12 +54,28 @@ defmodule SacSacMate.Services.RatingImporter do
     end)
   end
 
+  defp get_player(first_name, last_name, country) do
+    if is_nil(first_name) do
+      Repo.get_by(Player,
+        last_name: last_name,
+        country: country
+      )
+    else
+      Repo.get_by(Player,
+        first_name: first_name,
+        last_name: last_name,
+        country: country
+      )
+    end
+  end
+
   defp get_player_data(player_attributes) do
-    name = player_attributes.name
+    name = player_attributes.name |> to_string()
+    {first_name, last_name} = get_first_and_last_name(name)
 
     %{
-      first_name: name |> to_string() |> String.split(", ") |> Enum.at(1),
-      last_name: name |> to_string() |> String.split(", ") |> Enum.at(0),
+      first_name: first_name,
+      last_name: last_name,
       country: player_attributes.country |> to_string(),
       birthday: player_attributes.birthday |> to_string(),
       fideid: player_attributes.fideid |> to_string(),
@@ -72,9 +83,21 @@ defmodule SacSacMate.Services.RatingImporter do
     }
   end
 
+  defp get_first_and_last_name(name) do
+    case name =~ ", " do
+      true ->
+        first_name = name |> to_string() |> String.split(", ") |> Enum.at(1)
+        last_name = name |> to_string() |> String.split(", ") |> Enum.at(0)
+        {first_name, last_name}
+      false ->
+        first_name = name |> to_string() |> String.split(" ") |> Enum.at(1)
+        last_name = name |> to_string() |> String.split(" ") |> Enum.at(0)
+        {first_name, last_name}
+    end
+  end
+
   defp add_rating_for_player(player, rating_attributes) do
     # TODO: consider update player here
-
     changeset = Rating.changeset(%Rating{},
       Map.put(rating_attributes, :player_id, player.id)
     )
@@ -89,7 +112,6 @@ defmodule SacSacMate.Services.RatingImporter do
   end
 
   defp add_new_player_with_rating(player_data, rating_attributes) do
-
     player_changeset = Player.changeset(%Player{},
       %{
         first_name: player_data.first_name,

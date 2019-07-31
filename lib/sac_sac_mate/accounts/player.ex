@@ -21,7 +21,7 @@ defmodule SacSacMate.Accounts.Player do
   def changeset(player, attrs) do
     player
     |> cast(attrs, [:first_name, :last_name, :country, :date_of_birth, :sex, :fideid])
-    |> validate_required([:first_name, :last_name, :country])
+    |> validate_required([:last_name, :country])
     |> unique_constraint(:fullname, name: :players_first_name_last_name_country_index)
   end
 end
