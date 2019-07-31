@@ -18,12 +18,14 @@ defmodule SacSacMate.Services.RatingImporter do
         |> xpath(
           ~x"//player"l,
           fideid: ~x"./fideid/text()",
-          country: ~x"./country/text()",
-          birthday: ~x"./birthday/text()",
           name: ~x"./name/text()",
-          age: ~x"./age/text()",
+          country: ~x"./country/text()",
           sex: ~x"./sex/text()",
-          rating: ~x"./rating/text()"
+          birthday: ~x"./birthday/text()",
+          age: ~x"./age/text()",
+          rating: ~x"./rating/text()",
+          k_factor: ~x"./k/text()",
+          games: ~x"./games/text()"
         )
         |> insert_rating()
 
@@ -33,11 +35,9 @@ defmodule SacSacMate.Services.RatingImporter do
   end
 
   defp insert_rating(data) do
-    IO.inspect data
+    # IO.inspect data
 
-    data
-    |> Enum.map fn (player_attributes) ->
-
+    data |> (Enum.map fn (player_attributes) ->
       rating_attributes = %{
         standard_rating: player_attributes.rating |> to_string() |> Integer.parse |> elem(0),
         date: DateTime.utc_now() # TODO fix me
@@ -48,7 +48,7 @@ defmodule SacSacMate.Services.RatingImporter do
       player = Repo.get_by(Player,
         first_name: player_data.first_name,
         last_name: player_data.last_name,
-        country: player_data.country,
+        country: player_data.country
       )
 
       if player do
@@ -56,7 +56,7 @@ defmodule SacSacMate.Services.RatingImporter do
       else
         add_new_player_with_rating(player_data, rating_attributes)
       end
-    end
+    end)
   end
 
   defp get_player_data(player_attributes) do
@@ -66,7 +66,9 @@ defmodule SacSacMate.Services.RatingImporter do
       first_name: name |> to_string() |> String.split(", ") |> Enum.at(1),
       last_name: name |> to_string() |> String.split(", ") |> Enum.at(0),
       country: player_attributes.country |> to_string(),
-      birthday: player_attributes.birthday |> to_string()
+      birthday: player_attributes.birthday |> to_string(),
+      fideid: player_attributes.fideid |> to_string(),
+      sex: player_attributes.sex |> to_string(),
     }
   end
 
@@ -87,12 +89,15 @@ defmodule SacSacMate.Services.RatingImporter do
   end
 
   defp add_new_player_with_rating(player_data, rating_attributes) do
+
     player_changeset = Player.changeset(%Player{},
       %{
         first_name: player_data.first_name,
         last_name: player_data.last_name,
         country: player_data.country,
-        birthday: player_data.birthday
+        birthday: player_data.birthday,
+        sex: player_data.sex,
+        fideid: player_data.fideid ,
       }
     )
 

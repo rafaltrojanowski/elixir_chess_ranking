@@ -11,7 +11,7 @@ defmodule SacSacMate.Services.RatingImporterTest do
     file_name = "standard_feb14frl_xml_short.xml"
     path = "fixture/files/#{file_name}"
 
-    player = insert(:player,
+    insert(:player,
       first_name: "Doshtagir",
       last_name: "A E M",
       country: "BAN"
@@ -21,5 +21,17 @@ defmodule SacSacMate.Services.RatingImporterTest do
 
     assert length(Repo.all(Player)) == 2
     assert length(Repo.all(Rating)) == 2
+
+    player = Repo.get_by!(Player,
+      first_name: "Sourab",
+      last_name: "A K M"
+    )
+
+    assert player.first_name == "Sourab"
+    assert player.last_name ==  "A K M"
+    assert player.sex == "M"
+    assert player.date_of_birth == nil
+    assert player.fideid == "10206612"
+    assert player.country == "BAN"
   end
 end
