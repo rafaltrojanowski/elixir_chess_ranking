@@ -84,16 +84,14 @@ defmodule SacSacMate.Services.RatingImporter do
   end
 
   defp get_first_and_last_name(name) do
-    case name =~ ", " do
-      true ->
-        first_name = name |> to_string() |> String.split(", ") |> Enum.at(1)
-        last_name = name |> to_string() |> String.split(", ") |> Enum.at(0)
-        {first_name, last_name}
-      false ->
-        first_name = name |> to_string() |> String.split(" ") |> Enum.at(1)
-        last_name = name |> to_string() |> String.split(" ") |> Enum.at(0)
-        {first_name, last_name}
+    separator = case name =~ ", " do
+      true -> ", "
+      false -> " "
     end
+    first_name = name |> to_string() |> String.split(separator) |> Enum.at(1)
+    last_name = name |> to_string() |> String.split(separator) |> Enum.at(0)
+
+    {first_name, last_name}
   end
 
   defp add_rating_for_player(player, rating_attributes) do
