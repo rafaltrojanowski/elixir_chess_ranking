@@ -2,6 +2,11 @@ defmodule SacSacMate.Services.RatingDownloader do
 
   require Logger
 
+  # TODO:
+  # Handle better file not found case (dec 19, date is from future)
+  # Generally FilesUnziper just skips unvalid filed, so it's not a big deal
+  #
+
   @moduledoc """
     Traverse https://ratings.fide.com/download.phtml to grab chess rating history
     <a href="http://ratings.fide.com/download/standard_jul16frl.zip">TXT</a>
