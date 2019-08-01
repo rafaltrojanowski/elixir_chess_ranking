@@ -16,7 +16,7 @@ defmodule SacSacMate.Services.RatingImporter do
     {category, date} = get_category_and_date(path)
 
     Logger.info """
-    Reading #{path}.
+    Reading from #{path}...
     """
 
     case File.read(path) do
@@ -50,7 +50,7 @@ defmodule SacSacMate.Services.RatingImporter do
       player = get_player(player_data.fideid)
 
       if player do
-        add_rating_for_player(player, rating_attributes)
+        add_or_update_rating_for_player(player, date, rating_attributes)
       else
         add_new_player_with_rating(player_data, rating_attributes)
       end
@@ -142,6 +142,40 @@ defmodule SacSacMate.Services.RatingImporter do
     end
   end
 
+  defp add_or_update_rating_for_player(player, date, rating_attributes) do
+    rating = get_rating(player.id, date)
+
+    if rating do
+      changeset = Rating.changeset(rating,
+        Map.put(rating_attributes, :player_id, player.id)
+      )
+
+      case Repo.update(changeset) do
+        {:ok, rating} ->
+          {:ok, rating}
+        {:error, changeset} ->
+          Logger.info changeset_error_to_string(changeset)
+          {:error, changeset}
+      end
+    else
+      changeset = Rating.changeset(%Rating{},
+        Map.put(rating_attributes, :player_id, player.id)
+      )
+
+      case Repo.insert(changeset) do
+        {:ok, rating} ->
+          {:ok, rating}
+        {:error, changeset} ->
+          Logger.info changeset_error_to_string(changeset)
+          {:error, changeset}
+      end
+    end
+  end
+
+  defp get_rating(player_id, date) do
+    Repo.get_by(Rating, player_id: player_id, date: date)
+  end
+
   # Example path: "files/xml/blitz_apr14frl_xml.xml"
   defp get_category_and_date(path) do
     filename = String.split(path, "/") |> Enum.at(-1)
@@ -155,21 +189,6 @@ defmodule SacSacMate.Services.RatingImporter do
            |> Integer.parse |> elem(0)
     {:ok, date} = Date.new(year, month, 1)
     {category, date}
-  end
-
-  defp add_rating_for_player(player, rating_attributes) do
-    # TODO: consider update player here
-    changeset = Rating.changeset(%Rating{},
-      Map.put(rating_attributes, :player_id, player.id)
-    )
-
-    case Repo.insert(changeset) do
-      {:ok, rating} ->
-        {:ok, rating}
-      {:error, changeset} ->
-        Logger.info changeset_error_to_string(changeset)
-        {:error, changeset}
-    end
   end
 
   defp get_birthyear(player_attributes) do
