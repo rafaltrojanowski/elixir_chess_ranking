@@ -6,31 +6,31 @@
     <%= if @changeset.action do %>
       <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
     <% end %>
-  
+
     <div class="torch-form-group">
       <%= label f, :first_name %>
       <%= text_input f, :first_name %>
       <%= error_tag f, :first_name %>
     </div>
-  
+
     <div class="torch-form-group">
       <%= label f, :last_name %>
       <%= text_input f, :last_name %>
       <%= error_tag f, :last_name %>
     </div>
-  
+
     <div class="torch-form-group">
       <%= label f, :country %>
       <%= text_input f, :country %>
       <%= error_tag f, :country %>
     </div>
-  
+
     <div class="torch-form-group">
-      <%= label f, :date_of_birth %>
-      <%= text_input f, :date_of_birth %>
-      <%= error_tag f, :date_of_birth %>
+      <%= label f, :birthyear %>
+      <%= text_input f, :birthyear %>
+      <%= error_tag f, :birthyear %>
     </div>
-  
+
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>
     </div>

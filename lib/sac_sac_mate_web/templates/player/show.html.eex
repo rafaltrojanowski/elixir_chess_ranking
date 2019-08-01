@@ -11,27 +11,31 @@
       <h3>Player Details</h3>
     </div>
     <ul>
-      
+        <li>
+          <div class="torch-show-label">Fide ID</div>
+          <div class="torch-show-data"><%= @player.fideid %></div>
+        </li>
+
         <li>
           <div class="torch-show-label">First name:</div>
           <div class="torch-show-data"><%= @player.first_name %></div>
         </li>
-      
+
         <li>
           <div class="torch-show-label">Last name:</div>
           <div class="torch-show-data"><%= @player.last_name %></div>
         </li>
-      
+
         <li>
           <div class="torch-show-label">Country:</div>
           <div class="torch-show-data"><%= @player.country %></div>
         </li>
-      
+
         <li>
-          <div class="torch-show-label">Date of birth:</div>
-          <div class="torch-show-data"><%= @player.date_of_birth %></div>
+          <div class="torch-show-label">Birthyear:</div>
+          <div class="torch-show-data"><%= @player.birthyear %></div>
         </li>
-      
+
     </ul>
   </div>
 </section>

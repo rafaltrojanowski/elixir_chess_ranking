@@ -3,9 +3,9 @@ defmodule SacSacMateWeb.PlayerControllerTest do
 
   alias SacSacMate.Accounts
 
-  @create_attrs %{country: "some country", date_of_birth: "some date_of_birth", first_name: "some first_name", last_name: "some last_name"}
-  @update_attrs %{country: "some updated country", date_of_birth: "some updated date_of_birth", first_name: "some updated first_name", last_name: "some updated last_name"}
-  @invalid_attrs %{country: nil, date_of_birth: nil, first_name: nil, last_name: nil}
+  @create_attrs %{country: "some country", birthyear: "some birthyear", first_name: "some first_name", last_name: "some last_name"}
+  @update_attrs %{country: "some updated country", birthyear: "some updated birthyear", first_name: "some updated first_name", last_name: "some updated last_name"}
+  @invalid_attrs %{country: nil, birthyear: nil, first_name: nil, last_name: nil}
 
   def fixture(:player) do
     {:ok, player} = Accounts.create_player(@create_attrs)

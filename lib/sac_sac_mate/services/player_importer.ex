@@ -1,7 +1,10 @@
 defmodule SacSacMate.Services.PlayerImporter do
 
   @moduledoc """
-    Provides methods for scraping players data from Fide
+    Provides methods for scraping players data from Fide webpages
+
+    NOTE: Deprecated! It does not provide mandatory fideid field
+          Please use RatingImporter instead.
   """
 
   alias SacSacMate.Accounts.Player
@@ -42,7 +45,7 @@ defmodule SacSacMate.Services.PlayerImporter do
       first_name = content |> get_first_name()
       last_name= content |> get_last_name()
       country = content |> get_country()
-      date_of_birth = content |> get_date_of_birth()
+      birthyear = content |> get_birthyear()
 
       # NOTE: we can store stardard_rating and games as well, but let's try to
       # use ratings_importer service for this.
@@ -51,7 +54,7 @@ defmodule SacSacMate.Services.PlayerImporter do
         first_name: first_name,
         last_name: last_name,
         country: country,
-        date_of_birth: date_of_birth
+        birthyear: birthyear
       }
 
       changeset = Player.changeset(%Player{}, player_attributes)
@@ -86,8 +89,8 @@ defmodule SacSacMate.Services.PlayerImporter do
     Enum.at(content, 3) |> elem(2) |> to_string |> String.trim
   end
 
-  defp get_date_of_birth(content) do
-    Enum.at(content, 6) |> elem(2) |> to_string |> String.trim
+  defp get_birthyear(content) do
+    Enum.at(content, 6) |> elem(2) |> to_string |> String.trim |> Integer.parse |> elem(1)
   end
 
   def changeset_error_to_string(changeset) do

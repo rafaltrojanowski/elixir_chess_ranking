@@ -30,7 +30,7 @@ defmodule SacSacMate.Services.RatingImporterTest do
     assert player.first_name == "Sourab"
     assert player.last_name ==  "A K M"
     assert player.sex == "M"
-    assert player.date_of_birth == nil
+    assert player.birthyear == nil
     assert player.fideid == "10206612"
     assert player.country == "BAN"
   end

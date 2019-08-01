@@ -2,6 +2,7 @@ defmodule SacSacMate.Services.RatingImporter do
 
   @moduledoc """
     Get historical ratings from XML file
+    It stores data in two tables: players and ratings
   """
 
   import SweetXml
@@ -14,6 +15,10 @@ defmodule SacSacMate.Services.RatingImporter do
   def call(path) do
     {category, date} = get_category_and_date(path)
 
+    Logger.info """
+    Reading #{path}.
+    """
+
     case File.read(path) do
       {:ok, body} ->
         body
@@ -23,7 +28,7 @@ defmodule SacSacMate.Services.RatingImporter do
           name: ~x"./name/text()",
           country: ~x"./country/text()",
           sex: ~x"./sex/text()",
-          birthday: ~x"./birthday/text()",
+          birthyear: ~x"./birthday/text()",
           age: ~x"./age/text()",
           rating: ~x"./rating/text()",
           k_factor: ~x"./k/text()",
@@ -46,7 +51,7 @@ defmodule SacSacMate.Services.RatingImporter do
       }
 
       player_data = get_player_data(player_attributes)
-      player = get_player(player_data.first_name, player_data.last_name, player_data.country)
+      player = get_player(player_data.fideid)
 
       if player do
         add_rating_for_player(player, rating_attributes)
@@ -56,30 +61,20 @@ defmodule SacSacMate.Services.RatingImporter do
     end)
   end
 
-  defp get_player(first_name, last_name, country) do
-    if is_nil(first_name) do
-      Repo.get_by(Player,
-        last_name: last_name,
-        country: country
-      )
-    else
-      Repo.get_by(Player,
-        first_name: first_name,
-        last_name: last_name,
-        country: country
-      )
-    end
+  defp get_player(fideid) do
+    Repo.get_by(Player, fideid: fideid)
   end
 
   defp get_player_data(player_attributes) do
     name = player_attributes.name |> to_string()
     {first_name, last_name} = get_first_and_last_name(name)
+    birthyear = get_birthday(player_attributes)
 
     %{
       first_name: first_name,
       last_name: last_name,
       country: player_attributes.country |> to_string(),
-      birthday: player_attributes.birthday |> to_string(),
+      birthyear: get_birthday(player_attributes),
       fideid: player_attributes.fideid |> to_string(),
       sex: player_attributes.sex |> to_string(),
     }
@@ -94,6 +89,15 @@ defmodule SacSacMate.Services.RatingImporter do
     last_name = name |> to_string() |> String.split(separator) |> Enum.at(0)
 
     {first_name, last_name}
+  end
+
+  defp get_birthday(player_attributes) do
+    case is_nil(player_attributes.birthyear) do
+      false ->
+        player_attributes.birthyear |> to_string() |> Integer.parse |> elem(1)
+      true ->
+        nil
+    end
   end
 
   defp add_rating_for_player(player, rating_attributes) do
@@ -114,12 +118,12 @@ defmodule SacSacMate.Services.RatingImporter do
   defp add_new_player_with_rating(player_data, rating_attributes) do
     player_changeset = Player.changeset(%Player{},
       %{
+        fideid: player_data.fideid,
         first_name: player_data.first_name,
         last_name: player_data.last_name,
+        birthyear: player_data.birthyear,
         country: player_data.country,
-        birthday: player_data.birthday,
-        sex: player_data.sex,
-        fideid: player_data.fideid ,
+        sex: player_data.sex
       }
     )
 

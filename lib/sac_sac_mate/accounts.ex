@@ -158,8 +158,8 @@ defp filter_config(:players) do
     text :first_name
       text :last_name
       text :country
-      text :date_of_birth
-      
+      text :birthyear
+
   end
 end
 end

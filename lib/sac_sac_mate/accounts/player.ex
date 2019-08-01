@@ -8,7 +8,7 @@ defmodule SacSacMate.Accounts.Player do
 
     field :sex, :string
     field :country, :string
-    field :date_of_birth, :string
+    field :birthyear, :integer
 
     field :fideid, :string
 
@@ -20,8 +20,8 @@ defmodule SacSacMate.Accounts.Player do
   @doc false
   def changeset(player, attrs) do
     player
-    |> cast(attrs, [:first_name, :last_name, :country, :date_of_birth, :sex, :fideid])
-    |> validate_required([:last_name, :country])
-    |> unique_constraint(:fullname, name: :players_first_name_last_name_country_index)
+    |> cast(attrs, [:fideid, :first_name, :last_name, :country, :birthyear, :sex])
+    |> validate_required([:fideid, :last_name, :country])
+    |> unique_constraint(:fideid)
   end
 end

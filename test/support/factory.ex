@@ -9,7 +9,7 @@ defmodule SacSacMate.Factory do
       first_name: first_name,
       last_name: last_name,
       country: Enum.random(["POL", "HUN"]),
-      date_of_birth: "1987"
+      birthyear: "1987"
     }
   end
 
