@@ -12,6 +12,8 @@ defmodule SacSacMate.Services.RatingImporter do
   require Logger
 
   def call(path) do
+    {category, date} = get_category_and_date(path)
+
     case File.read(path) do
       {:ok, body} ->
         body
@@ -27,20 +29,20 @@ defmodule SacSacMate.Services.RatingImporter do
           k_factor: ~x"./k/text()",
           games: ~x"./games/text()"
         )
-        |> insert_rating()
+        |> insert_rating(category, date)
 
       {:error, reason} ->
         IO.inspect reason
     end
   end
 
-  defp insert_rating(data) do
-    # IO.inspect data
+  defp insert_rating(xml_data, category, date) do
+    # IO.inspect xml_data
 
-    data |> (Enum.map fn (player_attributes) ->
+    xml_data |> (Enum.map fn (player_attributes) ->
       rating_attributes = %{
-        standard_rating: player_attributes.rating |> to_string() |> Integer.parse |> elem(0),
-        date: DateTime.utc_now() # TODO fix me
+        standard_rating: player_attributes.rating |> to_string() |> Integer.parse |> elem(0), # TODO: based on category
+        date: date
       }
 
       player_data = get_player_data(player_attributes)
@@ -141,6 +143,38 @@ defmodule SacSacMate.Services.RatingImporter do
         Logger.info changeset_error_to_string(changeset)
         {:error, changeset}
     end
+  end
+
+  # Example path: "files/xml/blitz_apr14frl_xml.xml"
+  defp get_category_and_date(path) do
+    filename = String.split(path, "/") |> Enum.at(-1)
+    category = String.split(filename, "_") |> Enum.at(0)
+    substring = String.split(filename, "_") |> Enum.at(1)
+
+    month = substring |> String.slice(0..2) |> month_map
+    year = substring
+           |> String.slice(3..4)
+           |> String.pad_leading(4, "20") # TODO: Add support for years before 2000
+           |> Integer.parse |> elem(0)
+    {:ok, date} = Date.new(year, month, 1)
+    {category, date}
+  end
+
+  defp month_map(key) do
+    %{
+      "jan": 01,
+      "feb": 02,
+      "mar": 03,
+      "apr": 04,
+      "may": 05,
+      "jun": 06,
+      "jul": 07,
+      "aug": 08,
+      "sep": 09,
+      "oct": 10,
+      "nov": 11,
+      "dec": 12
+    }[String.to_atom(key)]
   end
 
   # TODO: Make it DRY.
