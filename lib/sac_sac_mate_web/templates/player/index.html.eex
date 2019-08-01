@@ -33,8 +33,11 @@
             <%= filter_string_input(:player, :birthyear, @conn.params) %>
           </div>
 
-
-
+          <div class="field">
+            <label>ID</label>
+            <%= number_filter_select(:player, :id, @conn.params) %>
+            <%= filter_number_input(:player, :id, @conn.params) %>
+          </div>
 
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.player_path(@conn, :index) %>

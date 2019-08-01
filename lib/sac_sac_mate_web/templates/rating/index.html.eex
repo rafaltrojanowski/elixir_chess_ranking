@@ -8,39 +8,39 @@
     <section id="torch-filters">
       <h3>Find Ratings</h3>
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
-        
-        
-        
+
+
+
           <div class="field">
             <label>Date</label>
             <%= filter_date_input(:rating, :date, @conn.params) %>
           </div>
-        
-        
+
+
           <div class="field">
             <label>Standard rating</label>
             <%= number_filter_select(:rating, :standard_rating, @conn.params) %>
             <%= filter_number_input(:rating, :standard_rating, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Rapid rating</label>
             <%= number_filter_select(:rating, :rapid_rating, @conn.params) %>
             <%= filter_number_input(:rating, :rapid_rating, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Blitz rating</label>
             <%= number_filter_select(:rating, :blitz_rating, @conn.params) %>
             <%= filter_number_input(:rating, :blitz_rating, @conn.params) %>
           </div>
-        
+
           <div class="field">
             <label>Player</label>
             <%= number_filter_select(:rating, :player_id, @conn.params) %>
             <%= filter_number_input(:rating, :player_id, @conn.params) %>
           </div>
-        
+
         <button type="submit" class="torch-button">Search</button>
         <%= link "Clear Filters", to: Routes.rating_path(@conn, :index) %>
       <% end %>
@@ -52,34 +52,34 @@
       <table>
         <thead>
           <tr>
-            
+
               <th><%= table_link(@conn, "Standard rating", :standard_rating) %></th>
-            
+
               <th><%= table_link(@conn, "Rapid rating", :rapid_rating) %></th>
-            
+
               <th><%= table_link(@conn, "Blitz rating", :blitz_rating) %></th>
-            
+
               <th><%= table_link(@conn, "Date", :date) %></th>
-            
+
               <th><%= table_link(@conn, "Player", :player_id) %></th>
-            
+
             <th><span>Actions</span></th>
           </tr>
         </thead>
         <tbody>
           <%= for rating <- @ratings do %>
             <tr>
-              
+
                 <td><%= rating.standard_rating %></td>
-              
+
                 <td><%= rating.rapid_rating %></td>
-              
+
                 <td><%= rating.blitz_rating %></td>
-              
+
                 <td><%= rating.date %></td>
-              
+
                 <td><%= rating.player_id %></td>
-              
+
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.rating_path(@conn, :show, rating) %></span>
                 <span><%= link "Edit", to: Routes.rating_path(@conn, :edit, rating) %></span>
