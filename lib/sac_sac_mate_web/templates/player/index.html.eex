@@ -54,7 +54,7 @@
 
               <th><%= table_link(@conn, "Country", :country) %></th>
 
-              <th><%= table_link(@conn, "Date of birth", :birthyear) %></th>
+              <th><%= table_link(@conn, "Birthyear", :birthyear) %></th>
 
             <th><span>Actions</span></th>
           </tr>

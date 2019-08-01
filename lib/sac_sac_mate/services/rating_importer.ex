@@ -68,13 +68,12 @@ defmodule SacSacMate.Services.RatingImporter do
   defp get_player_data(player_attributes) do
     name = player_attributes.name |> to_string()
     {first_name, last_name} = get_first_and_last_name(name)
-    birthyear = get_birthday(player_attributes)
 
     %{
       first_name: first_name,
       last_name: last_name,
       country: player_attributes.country |> to_string(),
-      birthyear: get_birthday(player_attributes),
+      birthyear: get_birthyear(player_attributes),
       fideid: player_attributes.fideid |> to_string(),
       sex: player_attributes.sex |> to_string(),
     }
@@ -89,30 +88,6 @@ defmodule SacSacMate.Services.RatingImporter do
     last_name = name |> to_string() |> String.split(separator) |> Enum.at(0)
 
     {first_name, last_name}
-  end
-
-  defp get_birthday(player_attributes) do
-    case is_nil(player_attributes.birthyear) do
-      false ->
-        player_attributes.birthyear |> to_string() |> Integer.parse |> elem(1)
-      true ->
-        nil
-    end
-  end
-
-  defp add_rating_for_player(player, rating_attributes) do
-    # TODO: consider update player here
-    changeset = Rating.changeset(%Rating{},
-      Map.put(rating_attributes, :player_id, player.id)
-    )
-
-    case Repo.insert(changeset) do
-      {:ok, rating} ->
-        {:ok, rating}
-      {:error, changeset} ->
-        Logger.info changeset_error_to_string(changeset)
-        {:error, changeset}
-    end
   end
 
   defp add_new_player_with_rating(player_data, rating_attributes) do
@@ -164,20 +139,44 @@ defmodule SacSacMate.Services.RatingImporter do
     {category, date}
   end
 
+  defp add_rating_for_player(player, rating_attributes) do
+    # TODO: consider update player here
+    changeset = Rating.changeset(%Rating{},
+      Map.put(rating_attributes, :player_id, player.id)
+    )
+
+    case Repo.insert(changeset) do
+      {:ok, rating} ->
+        {:ok, rating}
+      {:error, changeset} ->
+        Logger.info changeset_error_to_string(changeset)
+        {:error, changeset}
+    end
+  end
+
+  defp get_birthyear(player_attributes) do
+    case is_nil(player_attributes.birthyear) do
+      false ->
+        player_attributes.birthyear |> to_string() |> Integer.parse |> elem(0)
+      true ->
+        nil
+    end
+  end
+
   defp month_map(key) do
     %{
-      "jan": 01,
-      "feb": 02,
-      "mar": 03,
-      "apr": 04,
-      "may": 05,
-      "jun": 06,
-      "jul": 07,
-      "aug": 08,
-      "sep": 09,
-      "oct": 10,
-      "nov": 11,
-      "dec": 12
+      :jan => 01,
+      :feb => 02,
+      :mar => 03,
+      :apr => 04,
+      :may => 05,
+      :jun => 06,
+      :jul => 07,
+      :aug => 08,
+      :sep => 09,
+      :oct => 10,
+      :nov => 11,
+      :dec => 12
     }[String.to_atom(key)]
   end
 

@@ -12,6 +12,7 @@ defmodule SacSacMate.Services.RatingImporterTest do
     path = "fixture/files/#{file_name}"
 
     insert(:player,
+      fideid: "10207538",
       first_name: "Doshtagir",
       last_name: "A E M",
       country: "BAN"
@@ -22,16 +23,13 @@ defmodule SacSacMate.Services.RatingImporterTest do
     assert length(Repo.all(Player)) == 4
     assert length(Repo.all(Rating)) == 4
 
-    player = Repo.get_by!(Player,
-      first_name: "Sourab",
-      last_name: "A K M"
-    )
+    player = Repo.get_by!(Player, fideid: "5093295")
 
-    assert player.first_name == "Sourab"
-    assert player.last_name ==  "A K M"
-    assert player.sex == "M"
-    assert player.birthyear == nil
-    assert player.fideid == "10206612"
-    assert player.country == "BAN"
+    assert player.fideid == "5093295"
+    assert player.first_name == nil
+    assert player.last_name ==  "Aakasha"
+    assert player.sex == "F"
+    assert player.birthyear == 2000
+    assert player.country == "IND"
   end
 end
