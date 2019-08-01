@@ -43,12 +43,8 @@ defmodule SacSacMate.Services.RatingImporter do
 
   defp insert_rating(xml_data, category, date) do
     # IO.inspect xml_data
-
     xml_data |> (Enum.map fn (player_attributes) ->
-      rating_attributes = %{
-        standard_rating: player_attributes.rating |> to_string() |> Integer.parse |> elem(0), # TODO: based on category
-        date: date
-      }
+      rating_attributes = assign_rating_attributes(player_attributes, category, date)
 
       player_data = get_player_data(player_attributes)
       player = get_player(player_data.fideid)
@@ -59,6 +55,28 @@ defmodule SacSacMate.Services.RatingImporter do
         add_new_player_with_rating(player_data, rating_attributes)
       end
     end)
+  end
+
+  defp assign_rating_attributes(player_attributes, category, date) do
+    rating_value = player_attributes.rating |> to_string() |> Integer.parse |> elem(0)
+
+    case String.to_atom(category) do
+      :standard ->
+        %{
+          standard_rating: rating_value,
+          date: date
+        }
+      :rapid ->
+        %{
+          rapid_rating: rating_value,
+          date: date
+        }
+      :blitz ->
+        %{
+          blitz_rating: rating_value,
+          date: date
+        }
+    end
   end
 
   defp get_player(fideid) do
