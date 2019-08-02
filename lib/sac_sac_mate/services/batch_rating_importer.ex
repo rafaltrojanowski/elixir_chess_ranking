@@ -13,6 +13,8 @@ defmodule SacSacMate.Services.BatchRatingImporter do
 
   require Logger
 
+  @batch_size 10000
+
   def call(path) do
     {category, date} = get_category_and_date(path)
 
@@ -34,14 +36,14 @@ defmodule SacSacMate.Services.BatchRatingImporter do
           # k_factor: ~x"./k/text()",
           # games: ~x"./games/text()"
         )
-        |> insert_rating(category, date)
+        |> bulk_insert(category, date)
 
       {:error, reason} ->
         IO.inspect reason
     end
   end
 
-  defp insert_rating(xml_data, category, date) do
+  defp bulk_insert(xml_data, category, date) do
     datetime = NaiveDateTime.utc_now
     |> NaiveDateTime.truncate(:second)
 
@@ -50,16 +52,19 @@ defmodule SacSacMate.Services.BatchRatingImporter do
       xml_data
         |> Enum.map(fn(row) ->
             row
+              |> Map.put(:date, date)
               |> Map.put(:inserted_at, datetime)
               |> Map.put(:updated_at, datetime)
           end)
 
-    #TODO:
-    # postgresql protocol can not handle 520770 parameters, the maximum is 65535
-    # https://github.com/elixir-ecto/postgrex/issues/189
-    Repo.insert_all(Rating, xml_data)
+    # Postgresql protocol has a limit of maximum parameters (65535)
+    list_of_chunks = Enum.chunk_every(xml_data, @batch_size)
+    Enum.each list_of_chunks, fn rows ->
+      Repo.insert_all(Rating, rows)
+    end
   end
 
+  # TODO: move it to FileUtils
   defp get_category_and_date(path) do
     filename = String.split(path, "/") |> Enum.at(-1)
     category = String.split(filename, "_") |> Enum.at(0)
@@ -74,6 +79,7 @@ defmodule SacSacMate.Services.BatchRatingImporter do
     {category, date}
   end
 
+  # TODO: move it to DateUtils
   defp month_map(key) do
     %{
       :jan => 01,
