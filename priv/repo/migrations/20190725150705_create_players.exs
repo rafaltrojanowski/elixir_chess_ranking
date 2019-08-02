@@ -13,6 +13,6 @@ defmodule SacSacMate.Repo.Migrations.CreatePlayers do
       timestamps()
     end
 
-    create unique_index(:players, :fideid)
+    create unique_index(:players, [:fideid])
   end
 end
