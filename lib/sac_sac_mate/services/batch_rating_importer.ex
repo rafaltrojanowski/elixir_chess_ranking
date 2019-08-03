@@ -1,9 +1,26 @@
 defmodule SacSacMate.Services.BatchRatingImporter do
 
   @moduledoc """
-    Get historical ratings from XML file
+    Get historical ratings from XML file.
     It stores data in ratings table.
-    Uses insert_all - a single database query for the entire operation
+    Uses Repo.insert_all - a single database query for the entire operation.
+
+    Sample XML entry:
+
+    <player>
+      <fideid>10207538</fideid>
+      <name>A E M, Doshtagir</name>
+      <country>BAN</country>
+      <sex>M</sex>
+      <title></title>
+      <w_title></w_title>
+      <o_title></o_title>
+      <rating>1864</rating>
+      <games>0</games>
+      <k>30</k>
+      <birthday></birthday>
+      <flag>i</flag>
+    </player>
   """
 
   import SweetXml
@@ -13,7 +30,7 @@ defmodule SacSacMate.Services.BatchRatingImporter do
 
   require Logger
 
-  @batch_size 10000
+  @batch_size 5000
 
   def call(path) do
     {category, date} = get_category_and_date(path)
@@ -26,15 +43,14 @@ defmodule SacSacMate.Services.BatchRatingImporter do
         body
         |> xpath(
           ~x"//player"l,
-          # fideid: ~x"./fideid/text()",
-          # name: ~x"./name/text()",
-          # country: ~x"./country/text()",
-          # sex: ~x"./sex/text()",
-          # birthyear: ~x"./birthday/text()",
-          # age: ~x"./age/text()",
+          fideid: ~x"./fideid/text()"s |> transform_by(&String.to_integer/1),
+          name: ~x"./name/text()"s |> transform_by(&to_string/1),
+          country: ~x"./country/text()"s |> transform_by(&to_string/1),
+          sex: ~x"./sex/text()"s |> transform_by(&to_string/1),
+          birthyear: ~x"./birthday/text()"s |> transform_by(&get_birthyear/1) ,
           "#{category}_rating": ~x"./rating/text()"s |> transform_by(&String.to_integer/1),
-          # k_factor: ~x"./k/text()",
-          # games: ~x"./games/text()"
+          "#{category}_games": ~x"./games/text()"s |> transform_by(&String.to_integer/1),
+          "#{category}_k_factor": ~x"./k/text()"s |> transform_by(&String.to_integer/1)
         )
         |> bulk_insert(category, date)
 
@@ -61,6 +77,15 @@ defmodule SacSacMate.Services.BatchRatingImporter do
     list_of_chunks = Enum.chunk_every(xml_data, @batch_size)
     Enum.each list_of_chunks, fn rows ->
       Repo.insert_all(Rating, rows)
+    end
+  end
+
+  defp get_birthyear(string) do
+    case string == "" do
+      true ->
+        nil
+      false ->
+        string |> String.to_integer
     end
   end
 

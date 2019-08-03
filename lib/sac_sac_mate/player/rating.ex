@@ -3,10 +3,27 @@ defmodule SacSacMate.Player.Rating do
   import Ecto.Changeset
 
   schema "ratings" do
-    field :blitz_rating, :integer
-    field :date, :date
-    field :rapid_rating, :integer
     field :standard_rating, :integer
+    field :blitz_rating, :integer
+    field :rapid_rating, :integer
+
+    field :standard_games, :integer
+    field :rapid_games, :integer
+    field :blitz_games, :integer
+
+    field :standard_k_factor, :integer
+    field :rapid_k_factor, :integer
+    field :blitz_k_factor, :integer
+
+    field :fideid, :integer
+
+    field :name, :string
+    field :country, :string
+    field :sex, :string
+
+    field :birthyear, :integer
+
+    field :date, :date
 
     belongs_to :player, SacSacMate.Accounts.Player
 
