@@ -19,7 +19,7 @@ defmodule SacSacMate.Services.RatingDownloader do
   @months ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
   @extension ".zip"
 
-  @file_path "files/"
+  @file_path "tmp/"
 
   def call(format \\ :xml) do
     Enum.each years_range, fn year ->
@@ -40,7 +40,7 @@ defmodule SacSacMate.Services.RatingDownloader do
 
     file_name = String.split(link, "/") |> Enum.at(-1)
     body = HTTPoison.get!(link, [], [recv_timeout: 300_000]).body
-    File.write!("#{@file_path}#{file_name}", body)
+    File.write!("#{File.cwd!}/#{@file_path}#{file_name}", body)
   end
 
   defp build_link(format, category, month, year) do
