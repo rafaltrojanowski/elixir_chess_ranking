@@ -27,11 +27,12 @@ defmodule SacSacMate.Repo.Migrations.CreateRatings do
       add :date, :date
 
       # we do allow nulls as we use Repo.insert_all which does not support associations
-      add :player_id, references(:players)
+      add :player_id, references(:players, null: true)
 
       timestamps()
     end
 
     create index(:ratings, [:player_id])
+    create unique_index(:players, [:fideid, :date])
   end
 end
