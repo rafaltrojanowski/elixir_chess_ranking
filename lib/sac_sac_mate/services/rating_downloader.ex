@@ -40,7 +40,7 @@ defmodule SacSacMate.Services.RatingDownloader do
 
     file_name = String.split(link, "/") |> Enum.at(-1)
     body = HTTPoison.get!(link, [], [recv_timeout: 300_000]).body
-    File.write!("#{@file_path}/#{file_name}", body)
+    File.write!("#{@file_path}#{file_name}", body)
   end
 
   defp build_link(format, category, month, year) do
