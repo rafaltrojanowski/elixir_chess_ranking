@@ -11,32 +11,87 @@
       <h3>Rating Details</h3>
     </div>
     <ul>
-      
+
         <li>
-          <div class="torch-show-label">Standard rating:</div>
-          <div class="torch-show-data"><%= @rating.standard_rating %></div>
+          <div class="torch-show-label">Fide ID:</div>
+          <div class="torch-show-data"><%= @rating.fideid %></div>
         </li>
-      
-        <li>
-          <div class="torch-show-label">Rapid rating:</div>
-          <div class="torch-show-data"><%= @rating.rapid_rating %></div>
-        </li>
-      
-        <li>
-          <div class="torch-show-label">Blitz rating:</div>
-          <div class="torch-show-data"><%= @rating.blitz_rating %></div>
-        </li>
-      
+
         <li>
           <div class="torch-show-label">Date:</div>
           <div class="torch-show-data"><%= @rating.date %></div>
         </li>
-      
+
+        <li>
+          <div class="torch-show-label">Standard rating:</div>
+          <div class="torch-show-data"><%= @rating.standard_rating %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Rapid rating:</div>
+          <div class="torch-show-data"><%= @rating.rapid_rating %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Blitz rating:</div>
+          <div class="torch-show-data"><%= @rating.blitz_rating %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Standard games:</div>
+          <div class="torch-show-data"><%= @rating.standard_games %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Rapid games:</div>
+          <div class="torch-show-data"><%= @rating.rapid_games %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Blitz games:</div>
+          <div class="torch-show-data"><%= @rating.blitz_games %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Standard K-factor:</div>
+          <div class="torch-show-data"><%= @rating.standard_k_factor %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Rapid K-factor :</div>
+          <div class="torch-show-data"><%= @rating.rapid_k_factor %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Blitz K-factor:</div>
+          <div class="torch-show-data"><%= @rating.blitz_k_factor %></div>
+        </li>
+
         <li>
           <div class="torch-show-label">Player:</div>
           <div class="torch-show-data"><%= @rating.player_id %></div>
         </li>
-      
+
+        <li>
+          <div class="torch-show-label">Name:</div>
+          <div class="torch-show-data"><%= @rating.name %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Country:</div>
+          <div class="torch-show-data"><%= @rating.country %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Sex:</div>
+          <div class="torch-show-data"><%= @rating.sex %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Birthyear:</div>
+          <div class="torch-show-data"><%= @rating.birthyear %></div>
+        </li>
+
     </ul>
   </div>
 </section>

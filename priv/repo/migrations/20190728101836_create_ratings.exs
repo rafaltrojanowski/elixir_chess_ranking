@@ -33,6 +33,6 @@ defmodule SacSacMate.Repo.Migrations.CreateRatings do
     end
 
     create index(:ratings, [:player_id])
-    create unique_index(:players, [:fideid, :date])
+    create unique_index(:ratings, [:fideid, :date])
   end
 end

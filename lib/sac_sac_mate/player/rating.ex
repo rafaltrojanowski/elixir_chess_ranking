@@ -43,7 +43,7 @@ defmodule SacSacMate.Player.Rating do
       :standard_k_factor,
       :rapid_k_factor,
       :blitz_k_factor,
-      :fadeid,
+      :fideid,
       :name,
       :country,
       :sex,
@@ -51,6 +51,6 @@ defmodule SacSacMate.Player.Rating do
       :date,
       :player_id
     ])
-    |> validate_required([:fadeid, :date, :player_id])
+    |> validate_required([:fideid, :date, :player_id])
   end
 end

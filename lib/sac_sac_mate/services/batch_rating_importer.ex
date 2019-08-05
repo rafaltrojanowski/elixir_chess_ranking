@@ -52,14 +52,14 @@ defmodule SacSacMate.Services.BatchRatingImporter do
           "#{category}_games": ~x"./games/text()"s |> transform_by(&String.to_integer/1),
           "#{category}_k_factor": ~x"./k/text()"s |> transform_by(&String.to_integer/1)
         )
-        |> bulk_insert(category, date)
+        |> bulk_insert(date)
 
       {:error, reason} ->
         IO.inspect reason
     end
   end
 
-  defp bulk_insert(xml_data, category, date) do
+  defp bulk_insert(xml_data, date) do
     datetime = NaiveDateTime.utc_now
     |> NaiveDateTime.truncate(:second)
 
@@ -76,7 +76,21 @@ defmodule SacSacMate.Services.BatchRatingImporter do
     # Postgresql protocol has a limit of maximum parameters (65535)
     list_of_chunks = Enum.chunk_every(xml_data, @batch_size)
     Enum.each list_of_chunks, fn rows ->
-      Repo.insert_all(Rating, rows)
+      Repo.insert_all(Rating, rows, on_conflict: {:replace,
+        [
+          :standard_rating,
+          :rapid_rating,
+          :blitz_rating,
+          :standard_games,
+          :rapid_games,
+          :blitz_games,
+          :standard_k_factor,
+          :rapid_k_factor,
+          :blitz_k_factor
+        ]
+      },
+      conflict_target: [:date, :fideid]
+      )
     end
   end
 

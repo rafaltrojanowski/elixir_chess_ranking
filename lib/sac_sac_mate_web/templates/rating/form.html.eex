@@ -6,37 +6,80 @@
     <%= if @changeset.action do %>
       <p class="torch-form-error">Oops, something went wrong! Please check the errors below.</p>
     <% end %>
-  
+
     <div class="torch-form-group">
-      <%= label f, :standard_rating %>
-      <%= number_input f, :standard_rating %>
-      <%= error_tag f, :standard_rating %>
+      <%= label f, :fideid %>
+      <%= number_input f, :fideid %>
+      <%= error_tag f, :fideid %>
     </div>
-  
-    <div class="torch-form-group">
-      <%= label f, :rapid_rating %>
-      <%= number_input f, :rapid_rating %>
-      <%= error_tag f, :rapid_rating %>
-    </div>
-  
-    <div class="torch-form-group">
-      <%= label f, :blitz_rating %>
-      <%= number_input f, :blitz_rating %>
-      <%= error_tag f, :blitz_rating %>
-    </div>
-  
+
     <div class="torch-form-group">
       <%= label f, :date %>
       <%= date_select f, :date %>
       <%= error_tag f, :date %>
     </div>
-  
+
+    <div class="torch-form-group">
+      <%= label f, :standard_rating %>
+      <%= number_input f, :standard_rating %>
+      <%= error_tag f, :standard_rating %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :rapid_rating %>
+      <%= number_input f, :rapid_rating %>
+      <%= error_tag f, :rapid_rating %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :blitz_rating %>
+      <%= number_input f, :blitz_rating %>
+      <%= error_tag f, :blitz_rating %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :standard_games %>
+      <%= number_input f, :standard_games %>
+      <%= error_tag f, :standard_games %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :rapid_games %>
+      <%= number_input f, :rapid_games %>
+      <%= error_tag f, :rapid_games %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :blitz_games %>
+      <%= number_input f, :blitz_games %>
+      <%= error_tag f, :blitz_games %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :standard_k_factor %>
+      <%= number_input f, :standard_k_factor %>
+      <%= error_tag f, :standard_k_factor %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :rapid_k_factor %>
+      <%= number_input f, :rapid_k_factor %>
+      <%= error_tag f, :rapid_k_factor %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :blitz_k_factor %>
+      <%= number_input f, :blitz_k_factor %>
+      <%= error_tag f, :blitz_k_factor %>
+    </div>
+
+
     <div class="torch-form-group">
       <%= label f, :player_id %>
       <%= number_input f, :player_id %>
       <%= error_tag f, :player_id %>
     </div>
-  
+
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>
     </div>

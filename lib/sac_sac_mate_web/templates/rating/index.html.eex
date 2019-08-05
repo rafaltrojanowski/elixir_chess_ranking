@@ -10,12 +10,16 @@
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
 
 
+          <div class="field">
+            <label>Fide ID</label>
+            <%= number_filter_select(:rating, :fideid, @conn.params) %>
+            <%= filter_number_input(:rating, :fideid, @conn.params) %>
+          </div>
 
           <div class="field">
             <label>Date</label>
             <%= filter_date_input(:rating, :date, @conn.params) %>
           </div>
-
 
           <div class="field">
             <label>Standard rating</label>
@@ -36,6 +40,42 @@
           </div>
 
           <div class="field">
+            <label>Standard games</label>
+            <%= number_filter_select(:rating, :standard_games, @conn.params) %>
+            <%= filter_number_input(:rating, :standard_games, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Rapid games</label>
+            <%= number_filter_select(:rating, :rapid_games, @conn.params) %>
+            <%= filter_number_input(:rating, :rapid_games, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Blitz games</label>
+            <%= number_filter_select(:rating, :blitz_games, @conn.params) %>
+            <%= filter_number_input(:rating, :blitz_games, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Standard K-factor</label>
+            <%= number_filter_select(:rating, :standard_k_factor, @conn.params) %>
+            <%= filter_number_input(:rating, :standard_k_factor, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Rapid K-factor</label>
+            <%= number_filter_select(:rating, :rapid_k_factor, @conn.params) %>
+            <%= filter_number_input(:rating, :rapid_k_factor, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Blitz K-factor</label>
+            <%= number_filter_select(:rating, :blitz_k_factor, @conn.params) %>
+            <%= filter_number_input(:rating, :blitz_k_factor, @conn.params) %>
+          </div>
+
+          <div class="field">
             <label>Player</label>
             <%= number_filter_select(:rating, :player_id, @conn.params) %>
             <%= filter_number_input(:rating, :player_id, @conn.params) %>
@@ -53,13 +93,27 @@
         <thead>
           <tr>
 
+              <th><%= table_link(@conn, "Fide ID", :fideid) %></th>
+
+              <th><%= table_link(@conn, "Date", :date) %></th>
+
               <th><%= table_link(@conn, "Standard rating", :standard_rating) %></th>
 
               <th><%= table_link(@conn, "Rapid rating", :rapid_rating) %></th>
 
               <th><%= table_link(@conn, "Blitz rating", :blitz_rating) %></th>
 
-              <th><%= table_link(@conn, "Date", :date) %></th>
+              <th><%= table_link(@conn, "Standard games", :standard_games) %></th>
+
+              <th><%= table_link(@conn, "Rapid games", :rapid_games) %></th>
+
+              <th><%= table_link(@conn, "Blitz games", :blitz_games) %></th>
+
+              <th><%= table_link(@conn, "Standard K-factor", :standard_k_factor) %></th>
+
+              <th><%= table_link(@conn, "Rapid K-factor", :rapid_k_factor) %></th>
+
+              <th><%= table_link(@conn, "Blitz K-factor", :blitz_k_factor) %></th>
 
               <th><%= table_link(@conn, "Player", :player_id) %></th>
 
@@ -70,13 +124,27 @@
           <%= for rating <- @ratings do %>
             <tr>
 
+                <td><%= rating.fideid %></td>
+
+                <td><%= rating.date %></td>
+
                 <td><%= rating.standard_rating %></td>
 
                 <td><%= rating.rapid_rating %></td>
 
                 <td><%= rating.blitz_rating %></td>
 
-                <td><%= rating.date %></td>
+                <td><%= rating.standard_games %></td>
+
+                <td><%= rating.rapid_games %></td>
+
+                <td><%= rating.blitz_games %></td>
+
+                <td><%= rating.standard_k_factor %></td>
+
+                <td><%= rating.rapid_k_factor %></td>
+
+                <td><%= rating.blitz_k_factor %></td>
 
                 <td><%= rating.player_id %></td>
 
