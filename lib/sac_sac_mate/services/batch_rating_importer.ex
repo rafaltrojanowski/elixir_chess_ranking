@@ -52,14 +52,14 @@ defmodule SacSacMate.Services.BatchRatingImporter do
           "#{category}_games": ~x"./games/text()"s |> transform_by(&String.to_integer/1),
           "#{category}_k_factor": ~x"./k/text()"s |> transform_by(&String.to_integer/1)
         )
-        |> bulk_insert(date)
+        |> bulk_insert(date, category)
 
       {:error, reason} ->
         IO.inspect reason
     end
   end
 
-  defp bulk_insert(xml_data, date) do
+  defp bulk_insert(xml_data, date, category) do
     datetime = NaiveDateTime.utc_now
     |> NaiveDateTime.truncate(:second)
 
@@ -76,21 +76,17 @@ defmodule SacSacMate.Services.BatchRatingImporter do
     # Postgresql protocol has a limit of maximum parameters (65535)
     list_of_chunks = Enum.chunk_every(xml_data, @batch_size)
     Enum.each list_of_chunks, fn rows ->
-      Repo.insert_all(Rating, rows, on_conflict: {:replace,
-        [
-          :standard_rating,
-          :rapid_rating,
-          :blitz_rating,
-          :standard_games,
-          :rapid_games,
-          :blitz_games,
-          :standard_k_factor,
-          :rapid_k_factor,
-          :blitz_k_factor
-        ]
-      },
-      conflict_target: [:date, :fideid]
+      Repo.insert_all(Rating, rows, on_conflict: {:replace, replace_fields(category)},
+        conflict_target: [:date, :fideid]
       )
+    end
+  end
+
+  defp replace_fields(category) do
+    case category do
+      "standard" -> [:standard_rating, :standard_games, :standard_k_factor]
+      "rapid" -> [:rapid_rating, :rapid_games, :rapid_k_factor]
+      "blitz" -> [ :blitz_rating, :blitz_games, :blitz_k_factor ]
     end
   end
 
