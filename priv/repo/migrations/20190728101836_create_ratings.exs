@@ -32,5 +32,6 @@ defmodule SacSacMate.Repo.Migrations.CreateRatings do
       timestamps()
     end
 
+    create index(:ratings, [:player_id])
   end
 end
