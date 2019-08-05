@@ -36,10 +36,8 @@ Visit: http://localhost:4000/players
 
 ## TODO
 
-- [ ] do not create new player if already exist (rating import)
-- [ ] support all 3 types of ratings (import)
-- [ ] save date in rating model
-- [ ] allow to import from collection of XML files
+- [ ] Move Player and Rating to schema context like here: 
+https://github.com/beam-community/elixir-companies/blob/master/lib/companies/schema/user.ex
 
 ## Learn more
 
