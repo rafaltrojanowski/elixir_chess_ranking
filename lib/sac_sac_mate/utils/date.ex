@@ -4,7 +4,7 @@ defmodule SacSacMate.Utils.Date do
   Returns numeric representation of the month
   """
 
-  defp month_map(key) do
+  def month_map(key) do
     %{
       :jan => 01,
       :feb => 02,
