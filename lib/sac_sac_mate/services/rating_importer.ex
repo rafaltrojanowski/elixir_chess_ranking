@@ -136,6 +136,7 @@ defmodule SacSacMate.Services.RatingImporter do
           {:ok, rating} ->
             {:ok, rating}
           {:error, changeset} ->
+
             Logger.info Utils.Error.changeset_error_to_string(changeset)
             {:error, changeset}
         end

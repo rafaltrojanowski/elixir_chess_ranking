@@ -8,8 +8,9 @@ defmodule SacSacMate.PlayerTest do
     alias SacSacMate.Player.Rating
 
     @valid_attrs %{
-      blitz_rating: 42,
+      fideid: 12345,
       date: ~D[2010-04-17],
+      blitz_rating: 42,
       rapid_rating: 42,
       standard_rating: 42
     }

@@ -3,8 +3,8 @@ defmodule SacSacMateWeb.PlayerControllerTest do
 
   alias SacSacMate.Accounts
 
-  @create_attrs %{country: "some country", birthyear: "some birthyear", first_name: "some first_name", last_name: "some last_name"}
-  @update_attrs %{country: "some updated country", birthyear: "some updated birthyear", first_name: "some updated first_name", last_name: "some updated last_name"}
+  @create_attrs %{fideid: 12345, country: "some country", birthyear: 1990, first_name: "some first_name", last_name: "some last_name"}
+  @update_attrs %{fideid: 99999, country: "some updated country", birthyear: 2000, first_name: "some updated first_name", last_name: "some updated last_name"}
   @invalid_attrs %{country: nil, birthyear: nil, first_name: nil, last_name: nil}
 
   def fixture(:player) do

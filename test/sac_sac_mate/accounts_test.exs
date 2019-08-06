@@ -7,8 +7,8 @@ defmodule SacSacMate.AccountsTest do
   describe "players" do
     alias SacSacMate.Accounts.Player
 
-    @valid_attrs %{country: "some country", birthyear: "some birthyear", first_name: "some first_name", last_name: "some last_name"}
-    @update_attrs %{country: "some updated country", birthyear: "some updated birthyear", first_name: "some updated first_name", last_name: "some updated last_name"}
+    @valid_attrs %{fideid: 12345, country: "some country", birthyear: 1990, first_name: "some first_name", last_name: "some last_name"}
+    @update_attrs %{country: "some updated country", birthyear: 2000, first_name: "some updated first_name", last_name: "some updated last_name"}
     @invalid_attrs %{country: nil, birthyear: nil, first_name: nil, last_name: nil}
 
     def player_fixture(attrs \\ %{}) do
@@ -45,7 +45,7 @@ defmodule SacSacMate.AccountsTest do
     test "create_player/1 with valid data creates a player" do
       assert {:ok, %Player{} = player} = Accounts.create_player(@valid_attrs)
       assert player.country == "some country"
-      assert player.birthyear == "some birthyear"
+      assert player.birthyear == 1990
       assert player.first_name == "some first_name"
       assert player.last_name == "some last_name"
     end
@@ -59,7 +59,7 @@ defmodule SacSacMate.AccountsTest do
       assert {:ok, player} = Accounts.update_player(player, @update_attrs)
       assert %Player{} = player
       assert player.country == "some updated country"
-      assert player.birthyear == "some updated birthyear"
+      assert player.birthyear == 2000
       assert player.first_name == "some updated first_name"
       assert player.last_name == "some updated last_name"
     end

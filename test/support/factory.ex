@@ -6,6 +6,7 @@ defmodule SacSacMate.Factory do
     last_name = sequence(:last_name, &"Last name (#{&1})")
 
     %SacSacMate.Accounts.Player{
+      fideid: sequence(:fideid, &"123#{&1}"),
       first_name: first_name,
       last_name: last_name,
       country: Enum.random(["POL", "HUN"]),

@@ -8,7 +8,7 @@ defmodule SacSacMate.Services.RatingCollectionImporter do
 
   @ext "*.xml"
 
-  def call(dirname \\ 'files/test/') do
+  def call(dirname \\ 'files/xml/') do
     Path.wildcard("#{dirname}#{@ext}")
     |> (Enum.map fn (file) ->
       BatchRatingImporter.call(file)

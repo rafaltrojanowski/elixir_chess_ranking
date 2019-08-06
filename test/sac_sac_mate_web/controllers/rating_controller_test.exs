@@ -3,7 +3,7 @@ defmodule SacSacMateWeb.RatingControllerTest do
   import SacSacMate.Factory
   use SacSacMateWeb.ConnCase
 
-  @create_attrs %{blitz_rating: 42, date: ~D[2010-04-17], rapid_rating: 42, standard_rating: 42}
+  @create_attrs %{fideid: 12345, blitz_rating: 42, date: ~D[2010-04-17], rapid_rating: 42, standard_rating: 42}
   @update_attrs %{blitz_rating: 43, date: ~D[2011-05-18], rapid_rating: 43, standard_rating: 43}
   @invalid_attrs %{blitz_rating: nil, date: nil, rapid_rating: nil, standard_rating: nil}
 
