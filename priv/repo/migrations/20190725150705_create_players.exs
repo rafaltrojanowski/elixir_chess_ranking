@@ -3,7 +3,7 @@ defmodule SacSacMate.Repo.Migrations.CreatePlayers do
 
   def change do
     create table(:players) do
-      add :fideid, :string, null: false
+      add :fideid, :integer, null: false
       add :first_name, :string
       add :last_name, :string, null: false
       add :country, :string, null: false

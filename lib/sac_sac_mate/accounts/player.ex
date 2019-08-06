@@ -3,14 +3,14 @@ defmodule SacSacMate.Accounts.Player do
   import Ecto.Changeset
 
   schema "players" do
+    field :fideid, :integer
+
     field :first_name, :string
     field :last_name, :string
 
     field :sex, :string
     field :country, :string
     field :birthyear, :integer
-
-    field :fideid, :string
 
     has_many :ratings, SacSacMate.Player.Rating
 

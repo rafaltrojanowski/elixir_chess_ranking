@@ -19,6 +19,9 @@ defmodule SacSacMate.Factory do
     blitz_rating = sequence(:blitz_rating, &"123#{&1}")
 
     %SacSacMate.Player.Rating{
+      name: "Trojanowski, Rafal",
+      country: "POL",
+      fideid: sequence(:fideid, &"123#{&1}"),
       standard_rating: standard_rating,
       rapid_rating: rapid_rating,
       blitz_rating: blitz_rating,
