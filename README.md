@@ -16,7 +16,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ```
 mix sac_sac_mate.download_ratings # download XML files
 mix sac_sac_mate.unzip_files # unzip all downloaded files
-mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data
+mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 3 hours)
 mix sac_sac_mate.create_players # populate `players` table based on `ratings` table (create associations)
 ```
 
@@ -28,7 +28,12 @@ require IEx; IEx.pry
 
 ## Admin
 
+Visit: http://localhost:4000/ratings
 Visit: http://localhost:4000/players
+
+## Heroku
+
+https://sac-sac-mate.herokuapp.com
 
 ## Status
 - [x] Players import from FIDE (Standard, Rapid, Blitz)

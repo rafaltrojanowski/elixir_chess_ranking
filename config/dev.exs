@@ -7,6 +7,7 @@ config :sac_sac_mate, SacSacMate.Repo,
   database: "sac_sac_mate_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
+  timeout: 60_000,
   pool_size: 10
 
 # For development, we disable any cache and enable

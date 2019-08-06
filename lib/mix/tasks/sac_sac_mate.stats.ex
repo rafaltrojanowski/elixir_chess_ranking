@@ -1,17 +1,20 @@
 defmodule Mix.Tasks.SacSacMate.Stats do
   use Mix.Task
   require Logger
-  import Ecto.Query
+  alias SacSacMate.Repo
+  alias SacSacMate.Accounts.Player
+  alias SacSacMate.Player.Rating
 
   def run(_) do
     Mix.Task.run "app.start"
 
-    player_count = length(SacSacMate.Repo.all(SacSacMate.Accounts.Player))
-    rating_count = length(SacSacMate.Repo.all(SacSacMate.Player.Rating))
+    player_count = Repo.aggregate(Player, :count, :id)
+    rating_count = Repo.aggregate(Rating, :count, :id)
 
     Logger.info """
     Rating count: #{rating_count}
     """
+
     Logger.info """
     Player count: #{player_count}
     """
