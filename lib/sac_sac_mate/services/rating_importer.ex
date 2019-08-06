@@ -1,6 +1,10 @@
 defmodule SacSacMate.Services.RatingImporter do
 
   @moduledoc """
+    Deprecated!
+    As inserting data one-by-one is very slow please use
+    BatchRatingImporter with PlayerCreator to achieve the same result - faster!
+
     Get historical ratings from XML file
     It stores data in two tables: players and ratings
   """
