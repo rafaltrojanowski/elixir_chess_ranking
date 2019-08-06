@@ -10,10 +10,11 @@ defmodule SacSacMate.Services.RatingImporter do
   alias SacSacMate.Repo
   alias SacSacMate.Player.Rating
   alias SacSacMate.Accounts.Player
+  alias SacSacMate.Utils
   require Logger
 
   def call(path) do
-    {category, date} = get_category_and_date(path)
+    {category, date} = Utils.File.get_category_and_date(path)
 
     Logger.info """
     Reading from #{path}...
@@ -131,13 +132,13 @@ defmodule SacSacMate.Services.RatingImporter do
           {:ok, rating} ->
             {:ok, rating}
           {:error, changeset} ->
-            Logger.info changeset_error_to_string(changeset)
+            Logger.info Utils.Error.changeset_error_to_string(changeset)
             {:error, changeset}
         end
 
         {:ok, player}
       {:error, changeset} ->
-        Logger.info changeset_error_to_string(changeset)
+        Logger.info Utils.Error.changeset_error_to_string(changeset)
         {:error, changeset}
     end
   end
@@ -154,7 +155,7 @@ defmodule SacSacMate.Services.RatingImporter do
         {:ok, rating} ->
           {:ok, rating}
         {:error, changeset} ->
-          Logger.info changeset_error_to_string(changeset)
+          Logger.info Utils.Error.changeset_error_to_string(changeset)
           {:error, changeset}
       end
     else
@@ -166,7 +167,7 @@ defmodule SacSacMate.Services.RatingImporter do
         {:ok, rating} ->
           {:ok, rating}
         {:error, changeset} ->
-          Logger.info changeset_error_to_string(changeset)
+          Logger.info Utils.Error.changeset_error_to_string(changeset)
           {:error, changeset}
       end
     end
@@ -176,21 +177,6 @@ defmodule SacSacMate.Services.RatingImporter do
     Repo.get_by(Rating, player_id: player_id, date: date)
   end
 
-  # Example path: "files/xml/blitz_apr14frl_xml.xml"
-  defp get_category_and_date(path) do
-    filename = String.split(path, "/") |> Enum.at(-1)
-    category = String.split(filename, "_") |> Enum.at(0)
-    substring = String.split(filename, "_") |> Enum.at(1)
-
-    month = substring |> String.slice(0..2) |> month_map
-    year = substring
-           |> String.slice(3..4)
-           |> String.pad_leading(4, "20") # TODO: Add support for years before 2000
-           |> Integer.parse |> elem(0)
-    {:ok, date} = Date.new(year, month, 1)
-    {category, date}
-  end
-
   defp get_birthyear(player_attributes) do
     case is_nil(player_attributes.birthyear) do
       false ->
@@ -198,35 +184,5 @@ defmodule SacSacMate.Services.RatingImporter do
       true ->
         nil
     end
-  end
-
-  defp month_map(key) do
-    %{
-      :jan => 01,
-      :feb => 02,
-      :mar => 03,
-      :apr => 04,
-      :may => 05,
-      :jun => 06,
-      :jul => 07,
-      :aug => 08,
-      :sep => 09,
-      :oct => 10,
-      :nov => 11,
-      :dec => 12
-    }[String.to_atom(key)]
-  end
-
-  # TODO: Make it DRY.
-  def changeset_error_to_string(changeset) do
-    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
-      Enum.reduce(opts, msg, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
-      end)
-    end)
-    |> Enum.reduce("", fn {k, v}, acc ->
-      joined_errors = Enum.join(v, "; ")
-      "#{acc}#{k}: #{joined_errors}\n"
-    end)
   end
 end

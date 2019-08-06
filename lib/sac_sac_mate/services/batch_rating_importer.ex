@@ -26,6 +26,7 @@ defmodule SacSacMate.Services.BatchRatingImporter do
   import SweetXml
 
   alias SacSacMate.Repo
+  alias SacSacMate.Utils
   alias SacSacMate.Player.Rating
 
   require Logger
@@ -33,7 +34,7 @@ defmodule SacSacMate.Services.BatchRatingImporter do
   @batch_size 5000
 
   def call(path) do
-    {category, date} = get_category_and_date(path)
+    {category, date} = Utils.File.get_category_and_date(path)
 
     Logger.info """
     Reading from #{path}...
@@ -97,38 +98,5 @@ defmodule SacSacMate.Services.BatchRatingImporter do
       false ->
         string |> String.to_integer
     end
-  end
-
-  # TODO: move it to FileUtils
-  defp get_category_and_date(path) do
-    filename = String.split(path, "/") |> Enum.at(-1)
-    category = String.split(filename, "_") |> Enum.at(0)
-    substring = String.split(filename, "_") |> Enum.at(1)
-
-    month = substring |> String.slice(0..2) |> month_map
-    year = substring
-           |> String.slice(3..4)
-           |> String.pad_leading(4, "20") # TODO: Add support for years before 2000
-           |> Integer.parse |> elem(0)
-    {:ok, date} = Date.new(year, month, 1)
-    {category, date}
-  end
-
-  # TODO: move it to DateUtils
-  defp month_map(key) do
-    %{
-      :jan => 01,
-      :feb => 02,
-      :mar => 03,
-      :apr => 04,
-      :may => 05,
-      :jun => 06,
-      :jul => 07,
-      :aug => 08,
-      :sep => 09,
-      :oct => 10,
-      :nov => 11,
-      :dec => 12
-    }[String.to_atom(key)]
   end
 end

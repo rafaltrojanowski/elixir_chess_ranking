@@ -14,8 +14,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 ## Tasks
 
 ```
-mix sac_sac_mate.import_players
-mix sac_sac_mate.import_ratings
+mix sac_sac_mate.download_ratings # download XML files
+mix sac_sac_mate.unzip_files # unzip all downloaded files
+mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data
+mix sac_sac_mate.create_players # populate `players` table based on `ratings` table (create associations)
 ```
 
 ## Debugging

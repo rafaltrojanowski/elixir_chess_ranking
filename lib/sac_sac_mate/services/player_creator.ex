@@ -13,7 +13,6 @@ defmodule SacSacMate.Services.PlayerCreator do
     data = Repo.all(Rating)
 
     Enum.each data , fn rating ->
-
       case Repo.get_by(Player, %{fideid: rating.fideid}) do
         nil  ->
           player = Repo.insert!(%Player{
@@ -24,7 +23,6 @@ defmodule SacSacMate.Services.PlayerCreator do
             country: rating.country,
             birthyear: rating.birthyear
           })
-
           changeset = Rating.changeset(rating,
             %{player_id: player.id}
           )
