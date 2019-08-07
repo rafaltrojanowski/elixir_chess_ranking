@@ -33,7 +33,7 @@ iex -S mix test test/path/some_test.ex  # running specific test
 ```
 mix sac_sac_mate.download_ratings # download XML files
 mix sac_sac_mate.unzip_files # unzip all downloaded files
-mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 8 hours, records)
+mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 8 hours, 18800465 records)
 mix sac_sac_mate.create_players # populate `players` table based on `ratings` table (create associations)
 
 mix sac_sac_mate.stats # print info about data in database
