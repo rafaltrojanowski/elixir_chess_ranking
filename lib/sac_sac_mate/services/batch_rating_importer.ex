@@ -76,11 +76,14 @@ defmodule SacSacMate.Services.BatchRatingImporter do
 
     # Postgresql protocol has a limit of maximum parameters (65535)
     list_of_chunks = Enum.chunk_every(xml_data, @batch_size)
-    Enum.each list_of_chunks, fn rows ->
-      Repo.insert_all(Rating, rows, on_conflict: {:replace, replace_fields(category)},
-        conflict_target: [:date, :fideid]
-      )
-    end
+
+    Repo.transaction(fn ->
+      Enum.each list_of_chunks, fn rows ->
+        Repo.insert_all(Rating, rows, on_conflict: {:replace, replace_fields(category)},
+          conflict_target: [:date, :fideid]
+        )
+      end
+    end, timeout: :infinity)
   end
 
   defp replace_fields(category) do

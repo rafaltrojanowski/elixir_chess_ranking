@@ -160,7 +160,8 @@ defmodule SacSacMate.Player do
   defp filter_config(:ratings) do
     defconfig do
       number :fideid
-      date :date
+      date   :date
+      text   :name
       number :standard_rating
       number :rapid_rating
       number :blitz_rating

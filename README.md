@@ -11,13 +11,32 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
+
+## Database setup
+
+```
+mix ecto.drop
+mix ecto.create
+mix ecto.migrate
+```
+
+## Running tests
+
+```
+mix test
+iex -S mix test                         # if need debugger
+iex -S mix test test/path/some_test.ex  # running specific test
+```
+
 ## Tasks
 
 ```
 mix sac_sac_mate.download_ratings # download XML files
 mix sac_sac_mate.unzip_files # unzip all downloaded files
-mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 3 hours)
+mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 8 hours, records)
 mix sac_sac_mate.create_players # populate `players` table based on `ratings` table (create associations)
+
+mix sac_sac_mate.stats # print info about data in database
 ```
 
 ## Debugging
@@ -35,16 +54,15 @@ Visit: http://localhost:4000/players
 
 https://sac-sac-mate.herokuapp.com
 
+## Importing local database to Heroku
+
+TODO:
+
 ## Status
 - [x] Players import from FIDE (Standard, Rapid, Blitz)
 
 ### Admin Interface
 - [x] Create / Update / Delete Players
-
-## TODO
-
-- [ ] Move Player and Rating to schema context like here: 
-https://github.com/beam-community/elixir-companies/blob/master/lib/companies/schema/user.ex
 
 ## Learn more
 

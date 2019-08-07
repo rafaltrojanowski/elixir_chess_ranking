@@ -156,10 +156,10 @@ end
 defp filter_config(:players) do
   defconfig do
     text :first_name
-      text :last_name
-      text :country
-      text :birthyear
-      number :id
+    text :last_name
+    text :country
+    text :birthyear
+    number :id
   end
 end
 end

@@ -22,6 +22,12 @@
           </div>
 
           <div class="field">
+            <label>Name</label>
+            <%= filter_select(:rating, :name, @conn.params) %>
+            <%= filter_string_input(:rating, :name, @conn.params) %>
+          </div>
+
+          <div class="field">
             <label>Standard rating</label>
             <%= number_filter_select(:rating, :standard_rating, @conn.params) %>
             <%= filter_number_input(:rating, :standard_rating, @conn.params) %>
