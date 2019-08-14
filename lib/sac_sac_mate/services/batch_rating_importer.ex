@@ -61,12 +61,23 @@ defmodule SacSacMate.Services.BatchRatingImporter do
   end
 
   defp bulk_insert(xml_data, date, category) do
+    category_rating = String.to_atom("#{category}_rating")
     datetime = NaiveDateTime.utc_now
     |> NaiveDateTime.truncate(:second)
 
+    sorted = Enum.sort_by xml_data, &Map.fetch(&1, category_rating), &>=/2
+    elem = sorted |> Enum.at(99) # TODO: make it configurable
+    rank = elem[category_rating]
+
+    filtered = Enum.filter(sorted, fn(player) ->
+      player[category_rating] >= rank
+    end)
+
+    IO.inspect length(filtered)
+
     # See: https://github.com/elixir-ecto/ecto/issues/1932#issuecomment-314083252
-    xml_data =
-      xml_data
+    filtered_xml_data =
+      filtered
         |> Enum.map(fn(row) ->
             row
               |> Map.put(:date, date)
@@ -75,7 +86,7 @@ defmodule SacSacMate.Services.BatchRatingImporter do
           end)
 
     # Postgresql protocol has a limit of maximum parameters (65535)
-    list_of_chunks = Enum.chunk_every(xml_data, @batch_size)
+    list_of_chunks = Enum.chunk_every(filtered_xml_data, @batch_size)
 
     Repo.transaction(fn ->
       Enum.each list_of_chunks, fn rows ->
