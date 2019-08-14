@@ -32,6 +32,7 @@ defmodule SacSacMate.Services.BatchRatingImporter do
   require Logger
 
   @batch_size 5000
+  @limit 100
 
   def call(path) do
     {category, date} = Utils.File.get_category_and_date(path)
@@ -61,30 +62,19 @@ defmodule SacSacMate.Services.BatchRatingImporter do
   end
 
   defp bulk_insert(xml_data, date, category) do
-    category_rating = String.to_atom("#{category}_rating")
-    datetime = NaiveDateTime.utc_now
-    |> NaiveDateTime.truncate(:second)
+    datetime = NaiveDateTime.utc_now |> NaiveDateTime.truncate(:second)
+    sort_key = String.to_atom("#{category}_rating")
 
-    sorted = Enum.sort_by xml_data, &Map.fetch(&1, category_rating), &>=/2
-    elem = sorted |> Enum.at(99) # TODO: make it configurable
-    rank = elem[category_rating]
-
-    filtered = Enum.filter(sorted, fn(player) ->
-      player[category_rating] >= rank
-    end)
-
-    # See: https://github.com/elixir-ecto/ecto/issues/1932#issuecomment-314083252
-    filtered_xml_data =
-      filtered
-        |> Enum.map(fn(row) ->
-            row
-              |> Map.put(:date, date)
-              |> Map.put(:inserted_at, datetime)
-              |> Map.put(:updated_at, datetime)
-          end)
+    map = scope_to_insert(xml_data, sort_key)
+      |> Enum.map(fn(row) ->
+        row
+        |> Map.put(:date, date)
+        |> Map.put(:inserted_at, datetime)
+        |> Map.put(:updated_at, datetime)
+      end)
 
     # Postgresql protocol has a limit of maximum parameters (65535)
-    list_of_chunks = Enum.chunk_every(filtered_xml_data, @batch_size)
+    list_of_chunks = Enum.chunk_every(map, @batch_size)
 
     Repo.transaction(fn ->
       Enum.each list_of_chunks, fn rows ->
@@ -93,6 +83,12 @@ defmodule SacSacMate.Services.BatchRatingImporter do
         )
       end
     end, timeout: :infinity)
+  end
+
+  defp scope_to_insert(map, sort_key, limit \\ @limit) do
+    sorted = Enum.sort_by map, &Map.fetch(&1, sort_key), &>=/2
+    elem = sorted |> Enum.at(limit - 1)
+    Enum.filter(sorted, fn(row) -> row[sort_key] >= elem[sort_key] end)
   end
 
   defp replace_fields(category) do
