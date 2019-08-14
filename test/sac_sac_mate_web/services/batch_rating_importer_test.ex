@@ -5,7 +5,7 @@ defmodule SacSacMate.Services.BatchRatingImporterTest do
 
   @tag timeout: :infinity
   test "stores data in DB" do
-    dirname = "files/test/"
+    dirname = "files/test/one/"
     ext = "*.xml"
 
     Path.wildcard("#{dirname}#{ext}")

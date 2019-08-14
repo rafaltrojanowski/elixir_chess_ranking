@@ -44,14 +44,14 @@ defmodule SacSacMate.Services.BatchRatingImporter do
         body
         |> xpath(
           ~x"//player"l,
-          fideid: ~x"./fideid/text()"s |> transform_by(&String.to_integer/1),
-          name: ~x"./name/text()"s |> transform_by(&to_string/1),
-          country: ~x"./country/text()"s |> transform_by(&to_string/1),
-          sex: ~x"./sex/text()"s |> transform_by(&to_string/1),
-          birthyear: ~x"./birthday/text()"s |> transform_by(&get_birthyear/1) ,
-          "#{category}_rating": ~x"./rating/text()"s |> transform_by(&String.to_integer/1),
-          "#{category}_games": ~x"./games/text()"s |> transform_by(&String.to_integer/1),
-          "#{category}_k_factor": ~x"./k/text()"s |> transform_by(&String.to_integer/1)
+          fideid: ~x"./fideid/text()"i,
+          name: ~x"./name/text()"s,
+          country: ~x"./country/text()"s,
+          sex: ~x"./sex/text()"s,
+          birthyear: ~x"./birthday/text()"s |> transform_by(&get_birthyear/1),
+          "#{category}_rating": ~x"./rating/text()"i,
+          "#{category}_games": ~x"./games/text()"i,
+          "#{category}_k_factor": ~x"./k/text()"i
         )
         |> bulk_insert(date, category)
 
@@ -72,8 +72,6 @@ defmodule SacSacMate.Services.BatchRatingImporter do
     filtered = Enum.filter(sorted, fn(player) ->
       player[category_rating] >= rank
     end)
-
-    IO.inspect length(filtered)
 
     # See: https://github.com/elixir-ecto/ecto/issues/1932#issuecomment-314083252
     filtered_xml_data =
