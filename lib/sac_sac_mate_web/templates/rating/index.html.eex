@@ -28,6 +28,18 @@
           </div>
 
           <div class="field">
+            <label>Fide title</label>
+            <%= filter_select(:fide_title, :name, @conn.params) %>
+            <%= filter_string_input(:fide_title, :name, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Fide women title</label>
+            <%= filter_select(:fide_women_title, :name, @conn.params) %>
+            <%= filter_string_input(:fide_women_title, :name, @conn.params) %>
+          </div>
+
+          <div class="field">
             <label>Standard rating</label>
             <%= number_filter_select(:rating, :standard_rating, @conn.params) %>
             <%= filter_number_input(:rating, :standard_rating, @conn.params) %>
@@ -101,6 +113,10 @@
 
               <th><%= table_link(@conn, "Fide ID", :fideid) %></th>
 
+              <th><%= table_link(@conn, "Fide Title", :fide_title) %></th>
+
+              <th><%= table_link(@conn, "Fide Women Title", :fide_women_title) %></th>
+
               <th><%= table_link(@conn, "Date", :date) %></th>
 
               <th><%= table_link(@conn, "Standard rating", :standard_rating) %></th>
@@ -131,6 +147,10 @@
             <tr>
 
                 <td><%= rating.fideid %></td>
+
+                <td><%= rating.fide_title %></td>
+
+                <td><%= rating.fide_women_title %></td>
 
                 <td><%= rating.date %></td>
 

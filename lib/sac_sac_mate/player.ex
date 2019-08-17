@@ -162,6 +162,8 @@ defmodule SacSacMate.Player do
       number :fideid
       date   :date
       text   :name
+      text   :fide_title
+      text   :fide_women_title
       number :standard_rating
       number :rapid_rating
       number :blitz_rating

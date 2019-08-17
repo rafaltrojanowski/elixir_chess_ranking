@@ -22,6 +22,9 @@ defmodule SacSacMate.Repo.Migrations.CreateRatings do
       add :country, :string
       add :sex, :string
 
+      add :fide_title, :string
+      add :fide_women_title, :string
+
       add :birthyear, :integer
 
       add :date, :date

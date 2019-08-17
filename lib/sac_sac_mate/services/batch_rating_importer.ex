@@ -50,6 +50,8 @@ defmodule SacSacMate.Services.BatchRatingImporter do
           country: ~x"./country/text()"s,
           sex: ~x"./sex/text()"s,
           birthyear: ~x"./birthday/text()"s |> transform_by(&get_birthyear/1),
+          fide_title: ~x"./title/text()"s,
+          fide_women_title: ~x"./w_title/text()"s,
           "#{category}_rating": ~x"./rating/text()"i,
           "#{category}_games": ~x"./games/text()"i,
           "#{category}_k_factor": ~x"./k/text()"i

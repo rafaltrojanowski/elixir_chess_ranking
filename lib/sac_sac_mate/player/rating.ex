@@ -21,6 +21,9 @@ defmodule SacSacMate.Player.Rating do
     field :country, :string
     field :sex, :string
 
+    field :fide_title, :string
+    field :fide_women_title, :string
+
     field :birthyear, :integer
 
     field :date, :date
@@ -47,6 +50,8 @@ defmodule SacSacMate.Player.Rating do
       :name,
       :country,
       :sex,
+      :fide_title,
+      :fide_women_title,
       :birthyear,
       :date,
       :player_id
