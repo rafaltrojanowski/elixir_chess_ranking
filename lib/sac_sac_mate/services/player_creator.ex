@@ -12,11 +12,27 @@ defmodule SacSacMate.Services.PlayerCreator do
   def call do
     data = Repo.all(Rating)
 
+    # NOTE: This is not a best way to iterate over large collections
     Enum.each data, fn rating ->
       case Repo.get_by(Player, %{fideid: rating.fideid}) do
         nil  ->
           insert_player(rating)
-        player -> player
+        player ->
+          # TODO:
+          # We need to update existing player fide title here.
+
+          # Idea:
+          # If title was nil Then do update
+          # If title was lower than current Then do update
+
+          # Man titles ordered:   GM,  IM,  FM,  CM
+          # Women titles ordered: WGM, WIM, WFM, WCM
+
+          # Example:
+          # If player was IM and we have CM Then do NOT update
+          # If player was IM and we have GM Then do update
+
+          player
       end
     end
   end
@@ -30,7 +46,9 @@ defmodule SacSacMate.Services.PlayerCreator do
       last_name: last_name,
       sex: rating.sex,
       country: rating.country,
-      birthyear: rating.birthyear
+      birthyear: rating.birthyear,
+      # fide_title: rating.fide_title,
+      # fide_women_title: rating.fide_women_title
     })
 
     changeset = Rating.changeset(rating,
