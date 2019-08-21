@@ -1,6 +1,8 @@
 defmodule Mix.Tasks.SacSacMate.Stats do
   use Mix.Task
   require Logger
+  import Ecto.Query
+
   alias SacSacMate.Repo
   alias SacSacMate.Accounts.Player
   alias SacSacMate.Player.Rating
@@ -19,6 +21,17 @@ defmodule Mix.Tasks.SacSacMate.Stats do
     Player count: #{player_count}
     """
 
+    Logger.info """
+    Inspect ranking with missing player_id:
+    """
+    query = from r in "ratings",
+              where: is_nil(r.player_id),
+              select: {r.id, r.fideid, r.player_id},
+              order_by: [desc: r.inserted_at]
+    result = SacSacMate.Repo.all(query)
+    IO.inspect length(result)
+    IO.inspect result
+
     # Logger.info """
     # Inspect players with many rankings:
     # """
@@ -28,7 +41,6 @@ defmodule Mix.Tasks.SacSacMate.Stats do
           # order_by: [desc: count(r.id)]
 
     # result = SacSacMate.Repo.all(query)
-
     # IO.inspect result
   end
 end

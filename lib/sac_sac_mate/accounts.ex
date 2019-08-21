@@ -155,6 +155,7 @@ end
 
 defp filter_config(:players) do
   defconfig do
+    number :fideid
     text :first_name
     text :last_name
     text :country

@@ -22,20 +22,24 @@ defmodule SacSacMate.Services.PlayerCreator do
         nil  ->
           insert_player(rating)
         player ->
-          changeset = Ecto.Changeset.change player,
-            fide_title: rating.fide_title,
-            fide_women_title: rating.fide_women_title
-
-          case Repo.update changeset do
-            {:ok, struct} ->
-              # Updated with success
-              struct
-            {:error, changeset} ->
-              # Something went wrong
-              changeset
-          end
-
+          update_player_and_rating(player, rating)
       end
+    end
+  end
+
+  defp update_player_and_rating(player, rating) do
+    player_changeset = Ecto.Changeset.change player,
+      fide_title: rating.fide_title,
+      fide_women_title: rating.fide_women_title
+    case Repo.update player_changeset do
+      {:ok, struct} -> struct
+      {:error, changeset} -> changeset
+    end
+
+    rating_changeset = Rating.changeset(rating, %{player_id: player.id})
+    case Repo.update rating_changeset do
+      {:ok, struct} -> struct
+      {:error, changeset} -> changeset
     end
   end
 

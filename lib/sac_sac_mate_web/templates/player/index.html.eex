@@ -10,6 +10,12 @@
       <%= form_tag @conn.request_path, method: :get, id: "torch-filters-form" do %>
 
           <div class="field">
+            <label>Fide ID</label>
+            <%= number_filter_select(:player, :fideid, @conn.params) %>
+            <%= filter_number_input(:player, :fideid, @conn.params) %>
+          </div>
+
+          <div class="field">
             <label>First name</label>
             <%= filter_select(:player, :first_name, @conn.params) %>
             <%= filter_string_input(:player, :first_name, @conn.params) %>
@@ -62,6 +68,7 @@
       <table>
         <thead>
           <tr>
+              <th><%= table_link(@conn, "Fide Id", :fideid) %></th>
 
               <th><%= table_link(@conn, "First name", :first_name) %></th>
 
@@ -81,6 +88,8 @@
         <tbody>
           <%= for player <- @players do %>
             <tr>
+
+                <td><%= player.fideid %></td>
 
                 <td><%= player.first_name %></td>
 
