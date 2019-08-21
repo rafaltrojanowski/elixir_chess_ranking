@@ -41,6 +41,7 @@ defmodule SacSacMate.Services.PlayerCreatorTest do
       fideid: 123456,
       date: "2019-04-01",
       fide_title: "GM",
+      fide_women_title: "WGM",
       player: nil
     )
 
@@ -48,5 +49,6 @@ defmodule SacSacMate.Services.PlayerCreatorTest do
     player = Repo.get_by!(Player, fideid: 123456)
 
     assert player.fide_title == "GM"
+    assert player.fide_women_title == "WGM"
   end
 end

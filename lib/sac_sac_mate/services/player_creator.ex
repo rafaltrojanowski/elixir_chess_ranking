@@ -22,7 +22,9 @@ defmodule SacSacMate.Services.PlayerCreator do
         nil  ->
           insert_player(rating)
         player ->
-          changeset = Ecto.Changeset.change player, fide_title: rating.fide_title
+          changeset = Ecto.Changeset.change player,
+            fide_title: rating.fide_title,
+            fide_women_title: rating.fide_women_title
 
           case Repo.update changeset do
             {:ok, struct} ->
