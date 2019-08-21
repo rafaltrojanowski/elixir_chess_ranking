@@ -16,7 +16,8 @@ defmodule SacSacMateWeb.Router do
   scope "/", SacSacMateWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    # get "/", PageController, :index
+    get "/", PlayerController, :index
     resources "/players", PlayerController
     resources "/ratings", RatingController
   end

@@ -24,6 +24,12 @@
           </div>
           <nav class="torch-nav">
             <!-- nav links here -->
+            <a href="/players">
+              <h3>Players</h3>
+            </a>
+            <a href="/ratings">
+              <h3>Ratings</h3>
+            </a>
           </nav>
         </div>
       </section>

@@ -115,7 +115,7 @@
 
               <th><%= table_link(@conn, "Fide Title", :fide_title) %></th>
 
-              <th><%= table_link(@conn, "Fide Women Title", :fide_women_title) %></th>
+              <th><%= table_link(@conn, "Fide W Title", :fide_women_title) %></th>
 
               <th><%= table_link(@conn, "Date", :date) %></th>
 
@@ -125,17 +125,17 @@
 
               <th><%= table_link(@conn, "Blitz rating", :blitz_rating) %></th>
 
-              <th><%= table_link(@conn, "Standard games", :standard_games) %></th>
+              <th><%= table_link(@conn, "S games", :standard_games) %></th>
 
-              <th><%= table_link(@conn, "Rapid games", :rapid_games) %></th>
+              <th><%= table_link(@conn, "R games", :rapid_games) %></th>
 
-              <th><%= table_link(@conn, "Blitz games", :blitz_games) %></th>
+              <th><%= table_link(@conn, "B games", :blitz_games) %></th>
 
-              <th><%= table_link(@conn, "Standard K-factor", :standard_k_factor) %></th>
+              <th><%= table_link(@conn, "S K-factor", :standard_k_factor) %></th>
 
-              <th><%= table_link(@conn, "Rapid K-factor", :rapid_k_factor) %></th>
+              <th><%= table_link(@conn, "R K-factor", :rapid_k_factor) %></th>
 
-              <th><%= table_link(@conn, "Blitz K-factor", :blitz_k_factor) %></th>
+              <th><%= table_link(@conn, "B K-factor", :blitz_k_factor) %></th>
 
               <th><%= table_link(@conn, "Player", :player_id) %></th>
 
