@@ -56,7 +56,17 @@ https://sac-sac-mate.herokuapp.com
 
 ## Importing local database to Heroku
 
-TODO:
+```
+pg_dump -Fc --no-acl --no-owner -h localhost -U username sac_sac_mate_dev > sac_sac_mate_latest.dump
+```
+
+Simply run:
+
+```
+heroku pg:backups:restore 'https://sac-sac-mate.s3.eu-west-2.amazonaws.com/sac_sac_mate_latest.dump' DATABASE_URL --app sac-sac-mate
+```
+
+Note: Remember to grant public read access to the object while you upload your file to S3.
 
 ## Status
 - [x] Players import from FIDE (Standard, Rapid, Blitz)
