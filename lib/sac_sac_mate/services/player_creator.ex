@@ -5,12 +5,16 @@ defmodule SacSacMate.Services.PlayerCreator do
   Creates relationship between those two tables.
   """
 
+  import Ecto.Query
+
   alias SacSacMate.Player.Rating
   alias SacSacMate.Accounts.Player
   alias SacSacMate.Repo
 
   def call do
-    data = Repo.all(Rating)
+    query = from(r in Rating, order_by: [asc: r.date])
+    data = Repo.all(query)
+
 
     # NOTE: This is not a best way to iterate over large collections
     Enum.each data, fn rating ->
@@ -18,21 +22,17 @@ defmodule SacSacMate.Services.PlayerCreator do
         nil  ->
           insert_player(rating)
         player ->
-          # TODO:
-          # We need to update existing player fide title here.
+          changeset = Ecto.Changeset.change player, fide_title: rating.fide_title
 
-          # Idea:
-          # If title was nil Then do update
-          # If title was lower than current Then do update
+          case Repo.update changeset do
+            {:ok, struct} ->
+              # Updated with success
+              struct
+            {:error, changeset} ->
+              # Something went wrong
+              changeset
+          end
 
-          # Man titles ordered:   GM,  IM,  FM,  CM
-          # Women titles ordered: WGM, WIM, WFM, WCM
-
-          # Example:
-          # If player was IM and we have CM Then do NOT update
-          # If player was IM and we have GM Then do update
-
-          player
       end
     end
   end
@@ -47,8 +47,8 @@ defmodule SacSacMate.Services.PlayerCreator do
       sex: rating.sex,
       country: rating.country,
       birthyear: rating.birthyear,
-      # fide_title: rating.fide_title,
-      # fide_women_title: rating.fide_women_title
+      fide_title: rating.fide_title,
+      fide_women_title: rating.fide_women_title
     })
 
     changeset = Rating.changeset(rating,

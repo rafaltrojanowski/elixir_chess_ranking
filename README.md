@@ -20,6 +20,12 @@ mix ecto.create
 mix ecto.migrate
 ```
 
+## Debugging
+
+```
+require IEx; IEx.pry
+```
+
 ## Running tests
 
 ```
@@ -37,12 +43,6 @@ mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 
 mix sac_sac_mate.create_players # populate `players` table based on `ratings` table (create associations)
 
 mix sac_sac_mate.stats # print info about data in database
-```
-
-## Debugging
-
-```
-require IEx; IEx.pry
 ```
 
 ## Admin

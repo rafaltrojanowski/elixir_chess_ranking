@@ -12,6 +12,9 @@ defmodule SacSacMate.Accounts.Player do
     field :country, :string
     field :birthyear, :integer
 
+    field :fide_title, :string
+    field :fide_women_title, :string
+
     has_many :ratings, SacSacMate.Player.Rating
 
     timestamps()
@@ -20,7 +23,16 @@ defmodule SacSacMate.Accounts.Player do
   @doc false
   def changeset(player, attrs) do
     player
-    |> cast(attrs, [:fideid, :first_name, :last_name, :country, :birthyear, :sex])
+    |> cast(attrs, [
+      :fideid,
+      :first_name,
+      :last_name,
+      :country,
+      :birthyear,
+      :sex,
+      :fide_title,
+      :fide_women_title
+    ])
     |> validate_required([:fideid, :last_name, :country])
     |> unique_constraint(:fideid)
   end
