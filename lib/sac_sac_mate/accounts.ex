@@ -159,6 +159,8 @@ defp filter_config(:players) do
     text :last_name
     text :country
     text :birthyear
+    text :fide_title
+    text :fide_women_title
     number :id
   end
 end

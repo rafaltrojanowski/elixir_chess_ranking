@@ -36,6 +36,16 @@
           <div class="torch-show-data"><%= @player.birthyear %></div>
         </li>
 
+        <li>
+          <div class="torch-show-label">Fide title:</div>
+          <div class="torch-show-data"><%= @player.fide_title %></div>
+        </li>
+
+        <li>
+          <div class="torch-show-label">Fide women title:</div>
+          <div class="torch-show-data"><%= @player.fide_women_title %></div>
+        </li>
+
     </ul>
   </div>
 </section>

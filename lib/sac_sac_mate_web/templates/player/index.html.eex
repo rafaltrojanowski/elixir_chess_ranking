@@ -34,6 +34,18 @@
           </div>
 
           <div class="field">
+            <label>Fide title</label>
+            <%= filter_select(:player, :fide_title, @conn.params) %>
+            <%= filter_string_input(:player, :fide_title, @conn.params) %>
+          </div>
+
+          <div class="field">
+            <label>Fide women title</label>
+            <%= filter_select(:player, :fide_women_title, @conn.params) %>
+            <%= filter_string_input(:player, :fide_women_title, @conn.params) %>
+          </div>
+
+          <div class="field">
             <label>ID</label>
             <%= number_filter_select(:player, :id, @conn.params) %>
             <%= filter_number_input(:player, :id, @conn.params) %>
@@ -59,6 +71,10 @@
 
               <th><%= table_link(@conn, "Birthyear", :birthyear) %></th>
 
+              <th><%= table_link(@conn, "Fide title", :fide_title) %></th>
+
+              <th><%= table_link(@conn, "Fide women title", :fide_women_title) %></th>
+
             <th><span>Actions</span></th>
           </tr>
         </thead>
@@ -73,6 +89,10 @@
                 <td><%= player.country %></td>
 
                 <td><%= player.birthyear %></td>
+
+                <td><%= player.fide_title %></td>
+
+                <td><%= player.fide_women_title %></td>
 
               <td class="torch-actions">
                 <span><%= link "Show", to: Routes.player_path(@conn, :show, player) %></span>

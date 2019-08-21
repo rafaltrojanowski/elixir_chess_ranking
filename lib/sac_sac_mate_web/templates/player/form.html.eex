@@ -31,6 +31,18 @@
       <%= error_tag f, :birthyear %>
     </div>
 
+    <div class="torch-form-group">
+      <%= label f, :fide_title %>
+      <%= text_input f, :fide_title %>
+      <%= error_tag f, :fide_title %>
+    </div>
+
+    <div class="torch-form-group">
+      <%= label f, :fide_women_title %>
+      <%= text_input f, :fide_women_title %>
+      <%= error_tag f, :fide_women_title %>
+    </div>
+
     <div class="torch-submit-form">
       <%= submit "Submit", class: "torch-submit-button" %>
     </div>
