@@ -39,11 +39,13 @@ iex -S mix test test/path/some_test.ex  # running specific test
 ```
 mix sac_sac_mate.download_ratings # download XML files
 mix sac_sac_mate.unzip_files # unzip all downloaded files
-mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 8 hours, 18800465 records)
+mix sac_sac_mate.import_ratings # populate `ratings` table based on XML data (~ 8 hours, 18800465 records) (*)
 mix sac_sac_mate.create_players # populate `players` table based on `ratings` table (create associations)
 
 mix sac_sac_mate.stats # print info about data in database
 ```
+
+* NOTE: Currently `import_ratings` task stores only top 100 players.
 
 ## Admin
 
@@ -69,10 +71,14 @@ heroku pg:backups:restore 'https://sac-sac-mate.s3.eu-west-2.amazonaws.com/sac_s
 Note: Remember to grant public read access to the object while you upload your file to S3.
 
 ## Status
-- [x] Players import from FIDE (Standard, Rapid, Blitz)
+- [x] Import Players with rankings from FIDE (Standard, Rapid, Blitz)
 
 ### Admin Interface
 - [x] Create / Update / Delete Players
+- [x] Create / Update / Delete Rankings
+
+### API
+- [ ] Add endpoints
 
 ## Learn more
 
