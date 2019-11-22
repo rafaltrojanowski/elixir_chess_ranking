@@ -52,10 +52,6 @@ mix sac_sac_mate.stats # print info about data in database
 Visit: http://localhost:4000/ratings
 Visit: http://localhost:4000/players
 
-## Heroku
-
-https://sac-sac-mate.herokuapp.com
-
 ## Importing local database to Heroku
 
 ```
