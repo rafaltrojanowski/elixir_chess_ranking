@@ -1,4 +1,4 @@
-# SacSacMate
+# Chess Ranking (Scraper) 
 
 To start your Phoenix server:
 
