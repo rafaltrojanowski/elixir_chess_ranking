@@ -75,7 +75,6 @@ Note: Remember to grant public read access to the object while you upload your f
 
 ### API
 - [x] Ratings
-- [ ] Players
 
 ## Learn more
 
