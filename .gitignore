@@ -33,5 +33,11 @@ npm-debug.log
 # this depending on your deployment strategy.
 /priv/static/
 
+
+# Zip files 
+/tmp/ 
+
+# Unzipped files 
 /files/
+
 .DS_Store

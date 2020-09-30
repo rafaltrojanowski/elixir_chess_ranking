@@ -10,6 +10,14 @@ use Mix.Config
 config :sac_sac_mate,
   ecto_repos: [SacSacMate.Repo]
 
+# JSON-API
+config :mime, :types, %{
+  "application/vnd.api+json" => ["json-api"]
+}
+
+config :phoenix, :format_encoders,
+  "json-api": Poison
+
 # Configures the endpoint
 config :sac_sac_mate, SacSacMateWeb.Endpoint,
   url: [host: "localhost"],

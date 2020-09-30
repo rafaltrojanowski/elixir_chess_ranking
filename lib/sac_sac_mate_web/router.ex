@@ -10,7 +10,12 @@ defmodule SacSacMateWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json-api"]
+
+    scope "/api/", SacSacMateWeb do
+      get "/ratings", RatingsController, :index
+      get "/ratings/:id", RatingsController, :show
+    end
   end
 
   scope "/", SacSacMateWeb do
