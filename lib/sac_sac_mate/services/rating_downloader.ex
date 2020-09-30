@@ -40,6 +40,8 @@ defmodule SacSacMate.Services.RatingDownloader do
 
     file_name = String.split(link, "/") |> Enum.at(-1)
     body = HTTPoison.get!(link, [], [recv_timeout: 300_000]).body
+
+    File.mkdir_p!(Path.dirname(@file_path))
     File.write!("#{File.cwd!}/#{@file_path}#{file_name}", body)
   end
 
