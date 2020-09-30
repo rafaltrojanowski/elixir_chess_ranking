@@ -6,7 +6,7 @@ defmodule SacSacMate.Services.FilesUnziper  do
 
   @ext "*.zip"
 
-  def call(dirname \\ 'files/') do
+  def call(dirname \\ 'tmp/') do
     Path.wildcard("#{dirname}#{@ext}")
     |> (Enum.map fn (file) ->
       # IO.inspect file
