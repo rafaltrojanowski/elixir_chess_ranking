@@ -18,6 +18,10 @@ defmodule SacSacMateWeb.Router do
     end
   end
 
+  scope "/api" do
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: SacSacMateWeb.Schema
+  end
+
   scope "/", SacSacMateWeb do
     pipe_through :browser
 

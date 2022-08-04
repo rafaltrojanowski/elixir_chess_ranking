@@ -50,7 +50,9 @@ defmodule SacSacMate.MixProject do
       {:torch, "~> 2.0.0-rc.1"},
       {:sweet_xml, ">= 0.0.0"},
       {:exvcr, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.3", only: :test}
+      {:ex_machina, "~> 2.3", only: :test},
+      {:absinthe, "~> 1.6.0"},
+      {:absinthe_plug, "~> 1.5"}
     ]
   end
 
