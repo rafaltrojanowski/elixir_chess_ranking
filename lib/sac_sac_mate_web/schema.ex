@@ -3,12 +3,42 @@ defmodule SacSacMateWeb.Schema do
 
   alias SacSacMateWeb.PlayerResolver
 
+  # query {
+  #   allPlayers(page: 3) {
+  #     results {
+  #       fideid
+  #       last_name
+  #       country
+  #     },
+  #     meta {
+  #       page,
+  #       totalPages
+  #     }
+  #   }
+  # }
+
   query do
     @desc "Get all players"
-    field :all_players, non_null(list_of(non_null(:player))) do
+    field :all_players, :paginated_players do
       arg(:page, non_null(:integer))
       resolve(&PlayerResolver.all_players/3)
     end
+  end
+
+  @doc """
+  Paginated posts object contains list of data and meta information
+  """
+  object :paginated_players do
+    field :results, list_of(:player)
+    field :meta, :page_info
+  end
+
+  @doc """
+  Meta information object structure
+  """
+  object :page_info do
+    field :page, :integer
+    field :total_pages, :float
   end
 
   object :player do

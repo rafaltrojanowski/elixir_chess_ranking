@@ -77,6 +77,13 @@ def players(page, per_page) do
   from(p in Player, limit: ^per_page, offset: ^offset) |> Repo.all
 end
 
+"""
+How many posts there are
+"""
+def count() do
+  Enum.count(list_players())
+end
+
 @doc """
 Gets a single player.
 
