@@ -74,10 +74,7 @@ end
 
 def players(page, per_page) do
   offset = (page - 1) * per_page
-
-  list_players
-    |> Enum.drop(offset)
-    |> Enum.take(per_page)
+  from(p in Player, limit: ^per_page, offset: ^offset) |> Repo.all
 end
 
 @doc """
