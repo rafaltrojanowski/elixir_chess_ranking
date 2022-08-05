@@ -3,17 +3,17 @@ defmodule SacSacMateWeb.Schema do
 
   alias SacSacMateWeb.PlayerResolver
 
-  object :player do
-    field :fideid, non_null(:integer)
-    field :last_name, non_null(:string)
-    field :country, non_null(:string)
-  end
-
   query do
     @desc "Get all players"
     field :all_players, non_null(list_of(non_null(:player))) do
       resolve(&PlayerResolver.all_players/3)
     end
+  end
+
+  object :player do
+    field :fideid, non_null(:integer)
+    field :last_name, non_null(:string)
+    field :country, non_null(:string)
   end
 
   mutation do
