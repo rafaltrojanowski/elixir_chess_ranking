@@ -6,6 +6,7 @@ defmodule SacSacMateWeb.Schema do
   query do
     @desc "Get all players"
     field :all_players, non_null(list_of(non_null(:player))) do
+      arg(:page, non_null(:integer))
       resolve(&PlayerResolver.all_players/3)
     end
   end

@@ -1,8 +1,10 @@
 defmodule SacSacMateWeb.PlayerResolver do
   alias SacSacMate.Accounts
 
-  def all_players(_root, _args, _info) do
-    {:ok, Accounts.list_players()}
+  @per_page 2
+
+  def all_players(_, %{page: page}, _) do
+    {:ok, Accounts.players(page, @per_page)}
   end
 
   def create_player(_root, args, _info) do

@@ -72,6 +72,14 @@ def list_players do
   Repo.all(Player)
 end
 
+def players(page, per_page) do
+  offset = (page - 1) * per_page
+
+  list_players
+    |> Enum.drop(offset)
+    |> Enum.take(per_page)
+end
+
 @doc """
 Gets a single player.
 
